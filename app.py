@@ -23,7 +23,12 @@ from Routes.Routes import *
 #Reglas de rutas Suport
 app.add_url_rule(suport["qrcode"], view_func=suport["qrcodecontrollers"])
 
+app.add_url_rule(user["register_user"], view_func=user["register_user_controllers"])
+ 
+app.add_url_rule(admin["login_admin"], view_func=admin["login_admin_controllers"])
+
 
 
 if __name__ == '__main__':
+    app.secret_key = 'mysecret'
     app.run(debug=True,port=5000)
