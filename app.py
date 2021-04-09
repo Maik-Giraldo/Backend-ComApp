@@ -31,6 +31,8 @@ app.add_url_rule(menu["listar_menu"], view_func=menu["listar_menu_controllers"])
 
 app.add_url_rule(crearMenu["crear_menu"], view_func=crearMenu["crear_menu_controllers"])
 
+app.add_url_rule(mandarMenu["mandar_menu"], view_func=mandarMenu["mandar_menu_controllers"])
+
 
 
 if __name__ == '__main__':
