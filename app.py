@@ -27,6 +27,10 @@ app.add_url_rule(user["register_user"], view_func=user["register_user_controller
  
 app.add_url_rule(admin["login_admin"], view_func=admin["login_admin_controllers"])
 
+app.add_url_rule(menu["listar_menu"], view_func=menu["listar_menu_controllers"])
+
+app.add_url_rule(crearMenu["crear_menu"], view_func=crearMenu["crear_menu_controllers"])
+
 
 
 if __name__ == '__main__':

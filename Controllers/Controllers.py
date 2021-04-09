@@ -31,7 +31,7 @@ class QrCodeControllers(MethodView):
 
 
 
-app.config["MONGO_URI"]='mongodb://localhost/comApp'
+app.config["MONGO_URI"]='mongodb+srv://comApp:qawsed123@cluster0.adpmk.mongodb.net/comApp?retryWrites=true&w=majority'
 
 mongo = PyMongo(app)
 
@@ -84,3 +84,32 @@ class RegisterUserControllers(MethodView):
             
             else:
                 return jsonify({"Status": "Login incorrecto 22"}), 400
+
+'''
+Menu de platillo
+Responsable Andres Taborda
+Methods POST
+'''
+class MenuControllers(MethodView):
+    def get(self):
+
+        print("32")
+        data = mongo.db.menu.find({})
+        listado_documentos = list(data)
+
+        if data == None:
+            data = []
+
+        return jsonify({"transaccion":True,"data":listado_documentos})
+
+class CrearMenuControllers(MethodView):
+    def post(self):
+        data = request.get_json()
+        guardar = mongo.db.menu.insert_one(data)
+        return jsonify({"transaccion": True, "mensaje": "Los datos se almacenaron de forma exitosa"})
+
+  
+        
+
+
+
