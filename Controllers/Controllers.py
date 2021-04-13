@@ -5,16 +5,15 @@ from flask import jsonify, request
 import bcrypt
 import jwt
 from config import KEY_TOKEN_AUTH
-from Models.Qrcode import Qrcode
-from Models.Conexion import * 
 import bcrypt
 import binascii
 from app import app
-from email.mime.multipart import MIMEMultipart
-from email.mime.base import MIMEBase
-from smtplib import SMTP
-import smtplib
-from email.mime.text import MIMEText
+
+#Importacion de modelos
+from Models.Qrcode import Qrcode
+from Models.Conexion import * 
+from Models.PeticionAgregar import Peticion
+
 
 '''
 Clase CodigoQR
@@ -112,40 +111,13 @@ class CrearMenuControllers(MethodView):
         guardar = mongo.db.menu.insert_one(data)
         return jsonify({"transaccion": True, "mensaje": "Los datos se almacenaron de forma exitosa"})
 
+
 class MandarMenuControllers(MethodView):
     def post(self):
-        # print("hola")
-        data = request.get_json()
-        # mensaje = MIMEMultipart("plain")
-        # mensaje["From"] = "felipetabordasanchez@outlook.es"
-        # mensaje["To"] = "felipetabordasanchez@gmail.com"
-        # mensaje["Subject"] = "nuevo platillo"
-        # mensaje.attach(data)
-        # smtp = SMTP("smtp.live.com")
-        # smtp.starttls()
-        # smtp.login("felipetabordasanchez@outlook.es", "qawsed123")
-        # smtp.sendmail("felipetabordasanchez@outlook.es", "felipetabordasanchez@gmail.com", mensaje.as_string())
-        # smtp.quit()
-
         
-        proveedor_correo = 'smtp.live.com: 587'
-        remitente = 'felipetabordasanchez@outlook.es'
-        password = 'qawsed123'
-        #conexion a servidor
-        servidor = smtplib.SMTP(proveedor_correo)
-        servidor.starttls()
-        servidor.ehlo()
-        #autenticacion
-        servidor.login(remitente, password)
-        #mensaje 
-        mensaje = json.dumps(data)
-        msg = MIMEMultipart()
-        msg.attach(MIMEText(mensaje, 'html'))
-        msg['From'] = remitente
-        msg['To'] = 'felipetabordasanchez@gmail.com'
-        msg['Subject'] = 'peticion nuevo platillo'
-        servidor.sendmail(msg['From'] , msg['To'], msg.as_string())
+        peticion = Peticion()
 
+        answer = peticion.peticion()
 
         return jsonify({"transaccion": True, "mensaje": "Los datos se enviaron de forma exitosa"})
         
