@@ -8,6 +8,7 @@ from config import KEY_TOKEN_AUTH
 from Models.Qrcode import Qrcode
 from Models.Conexion import * 
 import bcrypt
+from flask_bcrypt import Bcrypt 
 import binascii
 from app import app
 from email.mime.multipart import MIMEMultipart
@@ -35,59 +36,60 @@ class QrCodeControllers(MethodView):
 
 
 
-app.config["MONGO_URI"]='mongodb+srv://comApp:qawsed123@cluster0.adpmk.mongodb.net/comApp?retryWrites=true&w=majority'
+app.config["MONGO_URI"]='mongodb://localhost/comApp'
 
 mongo = PyMongo(app)
+bcrypt = Bcrypt(app)
 
 
 class LoginAdminControllers(MethodView):
     def post(self):
-        users =  mongo.db.soporteTecnico
+        users = mongo.db.usuarios
+        correo = request.get_json()['correo']
+        password = request.get_json()['password']
+        result = ""
 
-        content = request.get_json()
-        password = content.get("password")
-        print(password)
-        
-        login_user = users.find_one({'correo' : request.json['correo']})
+        response = users.find_one({'correo': correo})
+    # 'correo': response['correo']
 
-        
-    
 
-        if login_user:
-            return jsonify({"Status": "Registro ok",
-                    "password_plano": password}), 200
-
+        if response:
+            if bcrypt.check_password_hash(response['password'], password):
+                encoded_jwt = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=1000), 'correo': response['correo']}, KEY_TOKEN_AUTH , algorithm='HS256')
+                return jsonify({"Status": "Login exitoso", "token": str(encoded_jwt),'correo': response['correo']}), 200    
+                
+            else:
+                return jsonify({"error":"Invalid username and password"}),400
         else:
-            print("mal")
+            return jsonify({"error":"Invalid username and password"}),400
+        return result 
+
 
 
 
 class RegisterUserControllers(MethodView):
     def post(self):
         
-            users = mongo.db.soporteTecnico
-            content = request.get_json()
-            correo = content.get("correo")
-            password = content.get("password")
-            existing_user = users.find_one({'correo' : request.json['correo']})
-            print("si esta")
-            print(correo)
-            print(password)
+        users = mongo.db.usuarios
+        existing_user = users.find_one({'correo' : request.json['correo']})
+        correo = request.get_json()['correo']
+        password = bcrypt.generate_password_hash(request.get_json()['password']).decode('utf-8')
         
-
+        if existing_user is None:
+            user_id = users.insert({
             
-            if existing_user is None:
-                hashpass = bcrypt.hashpw(request.json['password'].encode('utf-8'), bcrypt.gensalt())
-                valor_string = str(hashpass)
-                valor = binascii.b2a_base64(hashpass)
+                'correo': correo,
+                'password': password,
+                
+            })
 
-                users.insert({'correo' : correo, 'password' : valor})
-                session['correo'] = request.json['correo']
-                return jsonify({"Status": "Registro ok",
-                        "password_plano": password}), 200
-            
-            else:
-                return jsonify({"Status": "Login incorrecto 22"}), 400
+            new_user = users.find_one({'_id': user_id})
+
+            result = {'correo': new_user['correo'] + ' registered'}
+
+            return jsonify({'result' : result}),200  
+
+        return jsonify("el correo ya esta"),400
 
 '''
 Menu de platillo
