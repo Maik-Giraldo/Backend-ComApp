@@ -7,6 +7,8 @@ app = Flask(__name__)
 #importacion de modelos
 from Models.Conexion import * 
 
+
+
 #Configuracion en el CORS
 CORS(app, resources={
     r"/*": {"origins": "*"},
