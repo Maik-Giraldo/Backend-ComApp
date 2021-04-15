@@ -9,10 +9,10 @@ class Carrito():
         self.idPlatillo = idPlatillo
     
 
-    def add(self):
+    def Add(self):
         data = {
             "id_mesa": self.idMesa,
-            "id_platillo": self.id_platillo 
+            "id_platillo": self.idPlatillo 
         }
         data = json.dumps(data)
         res = mongo.db.carrito.insert(data)

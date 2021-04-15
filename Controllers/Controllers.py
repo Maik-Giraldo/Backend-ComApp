@@ -13,6 +13,7 @@ from app import app
 from Models.Qrcode import Qrcode
 from Models.Conexion import * 
 from Models.PeticionAgregar import Peticion
+from Models.Carrito import Carrito
 
 
 '''
@@ -120,7 +121,36 @@ class MandarMenuControllers(MethodView):
         answer = peticion.peticion()
 
         return jsonify({"transaccion": True, "mensaje": "Los datos se enviaron de forma exitosa"})
+
+
+'''
+Clase Carrito
+Responsable Michael Giraldo
+Methods POST
+'''
+class CarritoControllers(MethodView):
+
+    def post(self):
+        datos_token = ""
+        idMesa = 1
+        tokenR = request.headers.get('Authorization').split(" ")
+        token = tokenR[1]
+       
+        datos_token = jwt.decode(token, KEY_TOKEN_AUTH , algorithms=['HS256'])
+        # correo = datos_token.get("correo")
+
+        json_req = request.get_json(force=True)
+        idPlatillo = json_req["idPlatillo"]
+ 
+        carrito = Carrito()
         
+        carrito.idMesa = idMesa
+        carrito.idPlatillo = idPlatillo
+        
+        answer = carrito.Add()
+
+        return jsonify({"Status": "Platillo añadido correctamente",
+                        }), 200
 
 
 
