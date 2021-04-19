@@ -1,5 +1,6 @@
 from flask.views import MethodView
 from flask import Flask, jsonify, request , session
+from flask_pymongo import PyMongo
 import json
 from flask import jsonify, request
 import bcrypt
@@ -15,6 +16,12 @@ from Models.Qrcode import Qrcode
 from Models.Conexion import * 
 from Models.PeticionAgregar import Peticion
 from Models.Carrito import Carrito
+from Models.CrudMenu import CrudMenu
+
+#inicializacion de clases importadas
+crudMenu = CrudMenu()
+peticion = Peticion()
+
 
 
 '''
@@ -22,6 +29,13 @@ Clase CodigoQR
 Responsable Michael Giraldo
 Methods POST
 '''
+
+app.config["MONGO_URI"]='mongodb+srv://comApp:qawsed123@cluster0.adpmk.mongodb.net/comApp?retryWrites=true&w=majority'
+
+mongo = PyMongo(app)
+bcrypt = Bcrypt(app)
+
+
 class QrCodeControllers(MethodView):
 
     def post(self):
@@ -32,14 +46,6 @@ class QrCodeControllers(MethodView):
         return jsonify({"Status": "Codigo generado",
                         "image" : answer
                         }), 200
-
-
-
-
-app.config["MONGO_URI"]='mongodb://localhost/comApp'
-
-mongo = PyMongo(app)
-bcrypt = Bcrypt(app)
 
 
 class LoginAdminControllers(MethodView):
@@ -99,32 +105,34 @@ Methods POST
 class MenuControllers(MethodView):
     def get(self):
 
-
-        data = mongo.db.menu.find({})
-        listado_documentos = list(data)
-
-        if data == None:
-            data = []
-
-        return jsonify({"transaccion":True,"data":listado_documentos})
+        answer =  crudMenu.mostrar()
+        return jsonify({"transaccion":True,"data":answer})
 
 class CrearMenuControllers(MethodView):
     def post(self):
-        data = request.get_json()
-        guardar = mongo.db.menu.insert_one(data)
-        return jsonify({"transaccion": True, "mensaje": "Los datos se almacenaron de forma exitosa"})
+        
+        answer = crudMenu.crear()
+        return(answer)
 
 
 class MandarMenuControllers(MethodView):
     def post(self):
         
-        peticion = Peticion()
-
         answer = peticion.peticion()
 
         return jsonify({"transaccion": True, "mensaje": "Los datos se enviaron de forma exitosa"})
 
+class EditarMenuControllers(MethodView):
+    def put(self):
+        answer = crudMenu.actualizar()
 
+        return (answer)
+
+class EliminarMenuControllers(MethodView):
+    def post(self):
+        answer = crudMenu.eliminar()
+
+        return (answer) 
 '''
 Clase Carrito
 Responsable Michael Giraldo
