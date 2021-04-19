@@ -14,7 +14,7 @@ class JSONEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self,o)
 
 #conexion a la base de datos
-app.config["MONGO_URI"]='mongodb://localhost/comApp'
+app.config["MONGO_URI"]='mongodb+srv://comApp:qawsed123@cluster0.adpmk.mongodb.net/comApp?retryWrites=true&w=majority' 
 
 mongo = PyMongo(app) 
 app.json_encoder= JSONEncoder

@@ -1,4 +1,4 @@
-from Controllers.Controllers import QrCodeControllers ,RegisterUserControllers,LoginAdminControllers, MenuControllers, CrearMenuControllers,MandarMenuControllers, CarritoControllers
+from Controllers.Controllers import QrCodeControllers ,RegisterUserControllers,LoginAdminControllers, MenuControllers, CrearMenuControllers,MandarMenuControllers, CarritoControllers, EditarMenuControllers, EliminarMenuControllers
 
 suport = {
     "qrcode": "/api/v01/suport/qrcode", "qrcodecontrollers": QrCodeControllers.as_view("qrcode_api")
@@ -28,4 +28,10 @@ mandarMenu = {
 
 carritoAdd = {
     "carrito_Add": "/api/v01/carrito/CarritoAdd/<idMesa>/<idPlatillo>", "carrito_add_controllers": CarritoControllers.as_view("carrito_api"),
+}
+editarMenu = {
+    "editar_menu": "/api/v01/menu/editarMenu", "editar_menu_controllers": EditarMenuControllers.as_view("editarMenu_api"),
+}
+eliminarMenu = {
+    "eliminar_menu": "/api/v01/menu/eliminarMenu", "eliminar_menu_controllers": EliminarMenuControllers.as_view("eliminarMenu_api"),
 }
