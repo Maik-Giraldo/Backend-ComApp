@@ -97,15 +97,35 @@ class RegisterUserControllers(MethodView):
 
         return jsonify("el correo ya esta"),400
 
+
+class CarritoCompras(MethodView):
+    def get(self):
+        
+        data = mongo.db.carritoCompras.find({})
+        listado_carrito = list(data)
+        print(data,"esto el print")
+
+        if data == None:
+            data = []
+
+        return(listado_carrito)
+
+class MenuControllers(MethodView):
+    def get(self):
+
+        answer =  crudMenu.mostrar()
+        return jsonify({"transaccion":True,"data":answer})
+
+
 '''
 Menu de platillo
 Responsable Andres Taborda
 Methods POST
 '''
-class MenuControllers(MethodView):
+class CarritoCompras(MethodView):
     def get(self):
 
-        answer =  crudMenu.mostrar()
+        answer =  crudMenu.mostrarcarrito()
         return jsonify({"transaccion":True,"data":answer})
 
 class CrearMenuControllers(MethodView):
