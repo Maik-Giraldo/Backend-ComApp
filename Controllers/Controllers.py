@@ -21,6 +21,7 @@ from Models.CrudMenu import CrudMenu
 #inicializacion de clases importadas
 crudMenu = CrudMenu()
 peticion = Peticion()
+carrito = Carrito()
 
 
 
@@ -158,29 +159,29 @@ Clase Carrito
 Responsable Michael Giraldo
 Methods POST
 '''
-class CarritoControllers(MethodView):
+
+
+class AgregarCarritoControllers(MethodView):
+    def post(self):
+
+        answer = carrito.Agregar()
+
+        return (answer)
+
+class EliminarCarritoControllers(MethodView):
 
     def post(self):
-        datos_token = ""
-        idMesa = 1
-        tokenR = request.headers.get('Authorization').split(" ")
-        token = tokenR[1]
-       
-        datos_token = jwt.decode(token, KEY_TOKEN_AUTH , algorithms=['HS256'])
-        # correo = datos_token.get("correo")
 
-        json_req = request.get_json(force=True)
-        idPlatillo = json_req["idPlatillo"]
- 
-        carrito = Carrito()
-        
-        carrito.idMesa = idMesa
-        carrito.idPlatillo = idPlatillo
-        
-        answer = carrito.Add()
+        answer = carrito.Eliminar()
 
-        return jsonify({"Status": "Platillo añadido correctamente",
-                        }), 200
+        return (answer)
+
+class ResultadosCountCarritoControllers(MethodView):
+    def get(self):
+
+        answer = carrito.ResultadosCount()
+
+        return (answer)
 
 
 

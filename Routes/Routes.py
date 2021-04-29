@@ -1,4 +1,5 @@
-from Controllers.Controllers import QrCodeControllers ,RegisterUserControllers,LoginAdminControllers, MenuControllers, CrearMenuControllers,MandarMenuControllers, CarritoControllers, EditarMenuControllers, EliminarMenuControllers,CarritoCompras
+from Controllers.Controllers import QrCodeControllers ,RegisterUserControllers,LoginAdminControllers, MenuControllers, CrearMenuControllers,MandarMenuControllers, EditarMenuControllers, EliminarMenuControllers, AgregarCarritoControllers, EliminarCarritoControllers, ResultadosCountCarritoControllers
+
 
 suport = {
     "qrcode": "/api/v01/suport/qrcode", "qrcodecontrollers": QrCodeControllers.as_view("qrcode_api")
@@ -26,9 +27,6 @@ mandarMenu = {
     "mandar_menu": "/api/v01/menu/mandarMenu", "mandar_menu_controllers": MandarMenuControllers.as_view("mandarMenu_api"),
 }
 
-carritoAdd = {
-    "carrito_Add": "/api/v01/carrito/CarritoAdd/<idMesa>/<idPlatillo>", "carrito_add_controllers": CarritoControllers.as_view("carrito_api"),
-}
 editarMenu = {
     "editar_menu": "/api/v01/menu/editarMenu", "editar_menu_controllers": EditarMenuControllers.as_view("editarMenu_api"),
 }
@@ -36,6 +34,17 @@ eliminarMenu = {
     "eliminar_menu": "/api/v01/menu/eliminarMenu", "eliminar_menu_controllers": EliminarMenuControllers.as_view("eliminarMenu_api"),
 }
 
+agregarCarrito = {
+    "agregar_carrito": "/api/v01/menu/agregarCarrito", "agregar_carrito_controllers": AgregarCarritoControllers.as_view("agregarCarrito_api"),
+}
+
+eliminarCarrito = {
+    "eliminar_carrito": "/api/v01/menu/eliminarCarrito", "eliminar_carrito_controllers": EliminarCarritoControllers.as_view("eliminarCarrito_api"),
+}
+
+resultadosCarrito = {
+    "resultados_carrito": "/api/v01/menu/resultadosCarrito", "resultados_carrito_controllers": ResultadosCountCarritoControllers.as_view("resultadosCarrito_api"),
+=======
 CarritoCompras ={
     "carrito_compras": "/api/v01/menu/carritocompras", "carrito_compras_controllers": CarritoCompras.as_view("carrito_compras")
 }

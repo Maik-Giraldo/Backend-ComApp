@@ -21,13 +21,23 @@ app.config["MONGO_URI"]='mongodb+srv://comApp:qawsed123@cluster0.adpmk.mongodb.n
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 
+"""
+Clas menu
+Responsable: Andres Taborda
+Explain: Esta clase contiene distintos metodos que conforman todo el sistema del crud de un menu (crear, leer, actualizar, eliminar)
+"""
+
+
+
 class CrudMenu():
     def __init__(self):
         pass
     
     def mostrar(self):
+
         data = mongo.db.menu.find({})
         listado_documentos = list(data)
+        id_mesa = 1
 
         if data == None:
             data = []
@@ -76,10 +86,11 @@ class CrudMenu():
             return jsonify({"transaccion": True, "mensaje": "EL usuario fue actualizado satisfactoriamente"})
     def eliminar(self):
 
-        print("12343")
+        
         data = request.get_json()
         data2 = json.dumps(data)
         dataObject = json.loads(data2)
+       
         id_platillo = dataObject['id_platillo']
 
         if data and id_platillo:

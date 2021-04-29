@@ -39,10 +39,14 @@ app.add_url_rule(editarMenu["editar_menu"], view_func=editarMenu["editar_menu_co
 
 app.add_url_rule(eliminarMenu["eliminar_menu"], view_func=eliminarMenu["eliminar_menu_controllers"])
 
+app.add_url_rule(agregarCarrito["agregar_carrito"], view_func=agregarCarrito["agregar_carrito_controllers"])
+
+app.add_url_rule(eliminarCarrito["eliminar_carrito"], view_func=eliminarCarrito["eliminar_carrito_controllers"])
+
+app.add_url_rule(resultadosCarrito["resultados_carrito"], view_func=resultadosCarrito["resultados_carrito_controllers"])
+
 app.add_url_rule(CarritoCompras["carrito_compras"], view_func=CarritoCompras["carrito_compras_controllers"])
 
-app.add_url_rule(carritoAdd['carrito_Add'], defaults={'id': -1},
-                view_func=carritoAdd["carrito_add_controllers"], methods=['DELETE', 'POST'])
 
 
 
