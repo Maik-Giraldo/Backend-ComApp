@@ -45,6 +45,9 @@ app.add_url_rule(eliminarCarrito["eliminar_carrito"], view_func=eliminarCarrito[
 
 app.add_url_rule(resultadosCarrito["resultados_carrito"], view_func=resultadosCarrito["resultados_carrito_controllers"])
 
+app.add_url_rule(CarritoCompras["carrito_compras"], view_func=CarritoCompras["carrito_compras_controllers"])
+
+
 
 
 if __name__ == '__main__':

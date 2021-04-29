@@ -44,6 +44,17 @@ class CrudMenu():
 
         return(listado_documentos)
 
+    def mostrarcarrito(self):
+        data = mongo.db.carritoCompras.find({'id_mesa' : 2})
+        listado_carrito = list(data)
+
+        if data == None:
+            data = []
+
+        return(listado_carrito)
+
+        
+
     def crear(self):
 
         data = request.get_json()
