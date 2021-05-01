@@ -1,5 +1,4 @@
-from Controllers.Controllers import QrCodeControllers ,RegisterUserControllers,LoginAdminControllers, MenuControllers, CrearMenuControllers,MandarMenuControllers, EditarMenuControllers, EliminarMenuControllers, AgregarCarritoControllers, EliminarCarritoControllers, ResultadosCountCarritoControllers
-
+from Controllers.Controllers import QrCodeControllers ,RegisterUserControllers,LoginAdminControllers, MenuControllers, CrearMenuControllers,MandarMenuControllers, EditarMenuControllers, EliminarMenuControllers, AgregarCarritoControllers, EliminarCarritoControllers, ResultadosCountCarritoControllers, CarritoCompras
 
 suport = {
     "qrcode": "/api/v01/suport/qrcode", "qrcodecontrollers": QrCodeControllers.as_view("qrcode_api")
@@ -44,7 +43,8 @@ eliminarCarrito = {
 
 resultadosCarrito = {
     "resultados_carrito": "/api/v01/menu/resultadosCarrito", "resultados_carrito_controllers": ResultadosCountCarritoControllers.as_view("resultadosCarrito_api"),
-=======
-CarritoCompras ={
+}
+
+CarritoCompras = {
     "carrito_compras": "/api/v01/menu/carritocompras", "carrito_compras_controllers": CarritoCompras.as_view("carrito_compras")
 }

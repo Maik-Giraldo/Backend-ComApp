@@ -30,12 +30,12 @@ class Carrito():
         data = request.get_json()
         data2 = json.dumps(data)
         dataObject = json.loads(data2)
-        id_platillo = dataObject['id_platillo']
-        platillo = dataObject['platillo']
-        descripcion = dataObject['descripcion']
-        precio_unitario = dataObject['precio_unitario' ]
-        tipo = dataObject['tipo']
-        id_mesa = 1
+        id_platillo = dataObject['menu']['id_platillo']
+        platillo = dataObject['menu']['platillo']
+        descripcion = dataObject['menu']['descripcion']
+        precio_unitario = dataObject['menu']['precio_unitario' ]
+        tipo = dataObject['menu']['tipo']
+        id_mesa = dataObject['id_mesa']
 
         myquery= {
             "id_platillo": id_platillo,
@@ -68,9 +68,8 @@ class Carrito():
         data = request.get_json()
         data2 = json.dumps(data)
         dataObject = json.loads(data2)
-        id_mesa = 1
-        
-        id_platillo = dataObject['id_platillo']
+        id_platillo = dataObject['menu']['id_platillo']
+        id_mesa = dataObject["id_mesa"]
 
         if data and id_platillo:
             mongo.db.carritoCompras.delete_one({'id_platillo': id_platillo, "id_mesa": id_mesa})

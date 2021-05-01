@@ -126,6 +126,9 @@ Methods POST
 class CarritoCompras(MethodView):
     def get(self):
 
+        id_mesa = int(request.headers.get('id_mesa').split(" ")[1])
+        print(id_mesa)
+        crudMenu.id_mesa = id_mesa
         answer =  crudMenu.mostrarcarrito()
         return jsonify({"transaccion":True,"data":answer})
 

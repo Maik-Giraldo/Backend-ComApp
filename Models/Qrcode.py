@@ -25,7 +25,7 @@ class Qrcode():
 
         content = request.get_json()
 
-        url = content.get('url')
+        url = content.get('id_mesa')
 
         nombre_json = content.get('nombre')
 
