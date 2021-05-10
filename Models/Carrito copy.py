@@ -127,56 +127,38 @@ class Carrito():
 
 
     def ConfirmarPedido(self):       
-        print("confimaste el pedido")
         data = request.get_json()
         data2 = json.dumps(data)
         dataObject = json.loads(data2)
-        print(dataObject)
-        
+        id_platillo = dataObject['menu']['id_platillo']
+        platillo = dataObject['menu']['platillo']
+        descripcion = dataObject['menu']['descripcion']
+        precio_unitario = dataObject['menu']['precio_unitario' ]
+        tipo = dataObject['menu']['tipo']
+        id_mesa = dataObject['id_mesa']
 
-        search= mongo.db.carritoCompras.find(dataObject)
+        mongo.db.carritoCompras.insert(dataObject)
 
-        i = search.count()
-
-        for dat in mongo.db.carritoCompras.find(dataObject):
-            print(dat)
-            mongo.db.facturas.insert_one(dat)
-
-
-
-        return jsonify({"transaccion": True, "mensaje": "confirmar el pedido de forma exitosa"}),200
-
-
-
-        
-        
+        print("confimaste el pedido")
         
         
     def RechazarPedido(self):
 
+
+        users = mongo.db.carritoCompras
         data = request.get_json()
         data2 = json.dumps(data)
         dataObject = json.loads(data2)
         id_mesa = dataObject["id_mesa"]
-
-        print("entro a rechazar el pedido")
         
-        search= mongo.db.carritoCompras.find(dataObject)
 
-        i = search.count()
+        response = users.find({'id_mesa' : id_mesa})
 
-        for dat in mongo.db.carritoCompras.find(dataObject):
-            print(dat)
-            mongo.db.carritoCompras.delete_one(dat)
-
+        mongo.db.carritoCompras.delete(response)
 
         
 
-                                                
-
-        
-        return jsonify({"transaccion": True, "mensaje": "rechazar el pedido de forma exitosa"}),200
-
+        print("Rechazarte el Pedido")
         
     
         
