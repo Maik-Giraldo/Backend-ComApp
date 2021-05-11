@@ -99,17 +99,7 @@ class RegisterUserControllers(MethodView):
         return jsonify("el correo ya esta"),400
 
 
-class CarritoCompras(MethodView):
-    def get(self):
-        
-        data = mongo.db.carritoCompras.find({})
-        listado_carrito = list(data)
-        print(data,"esto el print")
 
-        if data == None:
-            data = []
-
-        return(listado_carrito)
 
 class MenuControllers(MethodView):
     def get(self):
@@ -131,6 +121,22 @@ class CarritoCompras(MethodView):
         crudMenu.id_mesa = id_mesa
         answer =  crudMenu.mostrarcarrito()
         return jsonify({"transaccion":True,"data":answer})
+
+
+
+class ConfirmarPedidoControllers(MethodView):
+    def post(self):
+        answer =  carrito.ConfirmarPedido()
+        return(answer)
+        return jsonify({"transaccion": True, "mensaje": "confirmar el pedido de forma exitosa"}),200
+        
+
+class RechazarPedidoControllers(MethodView):
+    def post(self):
+        answer = carrito.RechazarPedido()
+
+        return jsonify({"transaccion": True, "mensaje": "rechazar el pedido de forma exitosa"}),200
+
 
 class CrearMenuControllers(MethodView):
     def post(self):
