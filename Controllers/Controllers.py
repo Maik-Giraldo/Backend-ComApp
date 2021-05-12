@@ -146,6 +146,16 @@ class MandarMenuControllers(MethodView):
 
         return jsonify({"transaccion": True, "mensaje": "Los datos se enviaron de forma exitosa"})
 
+class PeticionEditarControllers(MethodView):
+    def post(self):
+        answer = peticion.peticionEditar()
+        return jsonify({"transaccion": True, "mensaje": "Los datos se enviaron de forma exitosa"})
+
+class PeticionEliminarControllers(MethodView):
+    def post(self):
+        answer = peticion.peticionEliminar()
+        return jsonify({"transaccion": True, "mensaje": "Los datos se enviaron de forma exitosa"})
+
 class EditarMenuControllers(MethodView):
     def put(self):
         answer = crudMenu.actualizar()
@@ -179,10 +189,11 @@ class EliminarCarritoControllers(MethodView):
 
         return (answer)
 
-class ResultadosCountCarritoControllers(MethodView):
+
+class ContadorCarritoControllers(MethodView):
     def get(self):
 
-        answer = carrito.ResultadosCount()
+        answer = carrito.ContadorCarrito()
 
         return (answer)
 
