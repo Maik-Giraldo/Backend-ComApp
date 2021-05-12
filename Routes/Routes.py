@@ -1,4 +1,4 @@
-from Controllers.Controllers import QrCodeControllers ,RegisterUserControllers,LoginAdminControllers, MenuControllers, CrearMenuControllers,MandarMenuControllers, EditarMenuControllers, EliminarMenuControllers, AgregarCarritoControllers, EliminarCarritoControllers, CarritoCompras, PeticionEditarControllers, PeticionEliminarControllers
+from Controllers.Controllers import QrCodeControllers ,RegisterUserControllers,LoginAdminControllers, MenuControllers, CrearMenuControllers,MandarMenuControllers, EditarMenuControllers, EliminarMenuControllers, AgregarCarritoControllers, EliminarCarritoControllers, ResultadosCountCarritoControllers, CarritoCompras , ConfirmarPedidoControllers,RechazarPedidoControllers
 
 suport = {
     "qrcode": "/api/v01/suport/qrcode", "qrcodecontrollers": QrCodeControllers.as_view("qrcode_api")
@@ -53,3 +53,12 @@ CarritoCompras = {
     "carrito_compras": "/api/v01/menu/carritocompras", "carrito_compras_controllers": CarritoCompras.as_view("carrito_compras")
 }
 
+
+ConfirmarPedido = {
+     "confirmar_pedido": "/api/v01/menu/confirmarPedido", "confirmar_pedido_controllers": ConfirmarPedidoControllers.as_view("confirmar_pedido")
+
+}
+
+RechazarPedido = {
+     "rechazar_pedido": "/api/v01/menu/rechazarPedido", "rechazar_pedido_controllers": RechazarPedidoControllers.as_view("rechazar_pedido")
+}

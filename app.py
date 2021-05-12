@@ -49,7 +49,9 @@ app.add_url_rule(eliminarCarrito["eliminar_carrito"], view_func=eliminarCarrito[
 
 app.add_url_rule(CarritoCompras["carrito_compras"], view_func=CarritoCompras["carrito_compras_controllers"])
 
+app.add_url_rule(ConfirmarPedido["confirmar_pedido"], view_func=ConfirmarPedido["confirmar_pedido_controllers"])
 
+app.add_url_rule(RechazarPedido["rechazar_pedido"], view_func=RechazarPedido["rechazar_pedido_controllers"])
 
 
 
