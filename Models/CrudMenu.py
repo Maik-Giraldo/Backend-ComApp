@@ -37,7 +37,7 @@ class CrudMenu():
 
         data = mongo.db.menu.find({})
         listado_documentos = list(data)
-        id_mesa = 1
+
 
         if data == None:
             data = []
@@ -72,6 +72,7 @@ class CrudMenu():
         descripcion = dataObject['descripcion']
         precio_unitario = dataObject['precio_unitario' ]
         tipo = dataObject['tipo']
+        
         
         if data and id_platillo and platillo and descripcion and precio_unitario and tipo:
 

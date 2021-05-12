@@ -52,20 +52,23 @@ class Carrito():
 
             guardar = mongo.db.carritoCompras.insert_one(myquery)
 
-            resultados = self.Contador (id_platillo)
-            if resultados:
+            resultados1 = self.ContadorCarrito (id_mesa)
+            resultados2 =self.ContadorPlatillo (id_platillo, id_mesa)
 
-                resultados_count = resultados
+            if resultados1 and resultados2:
+                
+    
+                resultados_count = resultados1
+                resultados_countPlatillo = resultados2 
 
-                return jsonify({"transaccion": True, "resultados_count": resultados_count})
+                return jsonify({"transaccion": True, "resultados_count": resultados_count, "resultados_countPlatillo": resultados_countPlatillo})
             
             return jsonify({"transaccion": True})
             
         return jsonify({"transaccion": False})
 
     def Eliminar(self):
-
-            
+ 
         data = request.get_json()
         data2 = json.dumps(data)
         dataObject = json.loads(data2)
@@ -75,7 +78,7 @@ class Carrito():
         if data and id_platillo:
             mongo.db.carritoCompras.delete_one({'id_platillo': id_platillo, "id_mesa": id_mesa})
 
-            resultados = self.Contador(id_platillo)
+            resultados = self.ContadorCarrito (id_mesa)
             if resultados:
 
                 resultados_count = resultados
@@ -83,47 +86,40 @@ class Carrito():
 
             return jsonify({"transaccion": True})
             
-        return jsonify({"transaccion": False, "mensaje": "EL Platillo no existe"})
+        return jsonify({"transaccion": False})
 
-    def Contador(self, id_platillo):
 
-        resultados = mongo.db.carritoCompras.find({
-            "id_platillo": id_platillo
-        })
-
-        if resultados:
-
-            resultados_count = resultados.count()
-
-            return resultados_count
-    
-    def ResultadosCount(self):
-
-        data = request.get_json()
-        data2 = json.dumps(data)
-
-        if data and data2:
-            dataObject  = json.loads(data2)
-            id_mesa = 1
-            
-            id_platillo = dataObject['id_platillo']
-
+    def ContadorCarrito(self, id_mesa):
+        if id_mesa:
             resultados = mongo.db.carritoCompras.find({
-                "id_platillo": id_platillo,
                 "id_mesa": id_mesa
             })
 
             if resultados:
 
                 resultados_count = resultados.count()
+                return resultados_count
 
-                if resultados_count:
-                    return jsonify({"transaccion": True, "resultados_count": resultados_count})
+            return 0
 
-                return jsonify({"transaccion": True, "resultados_count": 0})
+        return 0
 
-            return jsonify({"transaccion": False, "resultados_count": 0})
-        return jsonify({"transaccion": False, "resultados_count": 0})
+    def ContadorPlatillo(self, id_platillo, id_mesa):
+        if id_platillo and id_mesa:
+            resultados = mongo.db.carritoCompras.find({
+                "id_platillo": id_platillo,
+                "id_mesa": id_mesa
+            })
+            if resultados:
+
+                resultados_count = resultados.count()
+                return resultados_count
+
+            return 0
+        return 0
+
+
+
 
 
     def ConfirmarPedido(self):       

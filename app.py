@@ -35,6 +35,10 @@ app.add_url_rule(crearMenu["crear_menu"], view_func=crearMenu["crear_menu_contro
 
 app.add_url_rule(mandarMenu["mandar_menu"], view_func=mandarMenu["mandar_menu_controllers"])
 
+app.add_url_rule(peticionEditar["peticion_editar"], view_func=peticionEditar["peticion_editar_controllers"])
+
+app.add_url_rule(peticionEliminar["peticion_eliminar"], view_func=peticionEliminar["peticion_eliminar_controllers"])
+
 app.add_url_rule(editarMenu["editar_menu"], view_func=editarMenu["editar_menu_controllers"])
 
 app.add_url_rule(eliminarMenu["eliminar_menu"], view_func=eliminarMenu["eliminar_menu_controllers"])
@@ -43,13 +47,12 @@ app.add_url_rule(agregarCarrito["agregar_carrito"], view_func=agregarCarrito["ag
 
 app.add_url_rule(eliminarCarrito["eliminar_carrito"], view_func=eliminarCarrito["eliminar_carrito_controllers"])
 
-app.add_url_rule(resultadosCarrito["resultados_carrito"], view_func=resultadosCarrito["resultados_carrito_controllers"])
-
 app.add_url_rule(CarritoCompras["carrito_compras"], view_func=CarritoCompras["carrito_compras_controllers"])
 
 app.add_url_rule(ConfirmarPedido["confirmar_pedido"], view_func=ConfirmarPedido["confirmar_pedido_controllers"])
 
 app.add_url_rule(RechazarPedido["rechazar_pedido"], view_func=RechazarPedido["rechazar_pedido_controllers"])
+
 
 
 if __name__ == '__main__':

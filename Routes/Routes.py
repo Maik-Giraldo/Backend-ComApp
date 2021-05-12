@@ -26,6 +26,14 @@ mandarMenu = {
     "mandar_menu": "/api/v01/menu/mandarMenu", "mandar_menu_controllers": MandarMenuControllers.as_view("mandarMenu_api"),
 }
 
+peticionEditar = {
+    "peticion_editar": "/api/v01/menu/peticionEditar", "peticion_editar_controllers":PeticionEditarControllers.as_view("peticionEditar_api"),
+}
+
+peticionEliminar = {
+    "peticion_eliminar": "/api/v01/menu/peticionEliminar", "peticion_eliminar_controllers":PeticionEliminarControllers.as_view("peticionEliminar_api"),
+}
+
 editarMenu = {
     "editar_menu": "/api/v01/menu/editarMenu", "editar_menu_controllers": EditarMenuControllers.as_view("editarMenu_api"),
 }
@@ -41,13 +49,10 @@ eliminarCarrito = {
     "eliminar_carrito": "/api/v01/menu/eliminarCarrito", "eliminar_carrito_controllers": EliminarCarritoControllers.as_view("eliminarCarrito_api"),
 }
 
-resultadosCarrito = {
-    "resultados_carrito": "/api/v01/menu/resultadosCarrito", "resultados_carrito_controllers": ResultadosCountCarritoControllers.as_view("resultadosCarrito_api"),
-}
-
 CarritoCompras = {
     "carrito_compras": "/api/v01/menu/carritocompras", "carrito_compras_controllers": CarritoCompras.as_view("carrito_compras")
 }
+
 
 ConfirmarPedido = {
      "confirmar_pedido": "/api/v01/menu/confirmarPedido", "confirmar_pedido_controllers": ConfirmarPedidoControllers.as_view("confirmar_pedido")
