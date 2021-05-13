@@ -137,6 +137,13 @@ class Carrito():
         for dat in mongo.db.carritoCompras.find(dataObject):
             print(dat)
             mongo.db.facturas.insert_one(dat)
+        print("agredo correctamente")
+
+
+        for dat in mongo.db.carritoCompras.find(dataObject):
+            print(dat)
+            mongo.db.carritoCompras.delete_one(dat)
+        print("limpiar")
 
 
 
