@@ -1,4 +1,4 @@
-from Controllers.Controllers import QrCodeControllers ,RegisterUserControllers,LoginAdminControllers, MenuControllers, CrearMenuControllers,MandarMenuControllers, EditarMenuControllers, EliminarMenuControllers, AgregarCarritoControllers, EliminarCarritoControllers, ResultadosCountCarritoControllers, CarritoCompras , ConfirmarPedidoControllers,RechazarPedidoControllers
+from Controllers.Controllers import QrCodeControllers ,RegisterUserControllers,LoginAdminControllers, MenuControllers, CrearMenuControllers,MandarMenuControllers, EditarMenuControllers, EliminarMenuControllers, AgregarCarritoControllers, EliminarCarritoControllers, CarritoCompras , ConfirmarPedidoControllers,RechazarPedidoControllers, PeticionEditarControllers, PeticionEliminarControllers
 
 suport = {
     "qrcode": "/api/v01/suport/qrcode", "qrcodecontrollers": QrCodeControllers.as_view("qrcode_api")
