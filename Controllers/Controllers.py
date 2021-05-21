@@ -17,11 +17,13 @@ from Models.Conexion import *
 from Models.PeticionAgregar import Peticion
 from Models.Carrito import Carrito
 from Models.CrudMenu import CrudMenu
+from Models.PersonalCocina import PersonalCocina
 
 #inicializacion de clases importadas
 crudMenu = CrudMenu()
 peticion = Peticion()
 carrito = Carrito()
+personalCocina = PersonalCocina()
 
 
 
@@ -106,6 +108,16 @@ class MenuControllers(MethodView):
 
         answer =  crudMenu.mostrar()
         return jsonify({"transaccion":True,"data":answer})
+
+
+
+class FacturasControllers(MethodView):
+    def get(self):
+
+        answer =  personalCocina.GetFacturas()
+        return jsonify({"transaccion":True,"data":answer})
+
+
 
 
 '''
