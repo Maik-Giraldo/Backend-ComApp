@@ -11,7 +11,9 @@ import bcrypt
 from flask_bcrypt import Bcrypt 
 import binascii
 from app import app
-
+from datetime import datetime
+from bson.objectid import ObjectId 
+from bson import json_util, ObjectId
 #Importacion de modelos
 
 
@@ -30,7 +32,6 @@ class Carrito():
         data = request.get_json()
         data2 = json.dumps(data)
         dataObject = json.loads(data2)
-        print(dataObject)
         id_platillo = dataObject['menu']['id_platillo']
         platillo = dataObject['menu']['platillo']
         descripcion = dataObject['menu']['descripcion']
@@ -123,37 +124,88 @@ class Carrito():
 
 
     def ConfirmarPedido(self):       
-        print("confimaste el pedido")
+        
         data = request.get_json()
         data2 = json.dumps(data)
         dataObject = json.loads(data2)
-        print(dataObject)
-        
+        id_mesa = dataObject["id_mesa"]
+        date = datetime.now()
+        id_pedido = None
 
-        search= mongo.db.carritoCompras.find(dataObject)
+        # Almacenar datos en la coleccion pedidos
+        if id_mesa and date:
 
-        i = search.count()
+            maximo = mongo.db.pedido.find().sort("id_pedido", -1)
+            cantidad = maximo.count()
+
+            if cantidad > 0:
+
+                data3 = list(maximo)
+                data4 = json.loads(json_util.dumps(data3))
+                dataObject1 = json.dumps(data4)
+                dataObject2 = json.loads(dataObject1)
+                id_pedido = int(dataObject2[0]["id_pedido"]) + 1
+    
+            else:
+                id_pedido = 1
+
+            myquery= {
+
+                    "fecha/hora": date,
+                    "id_pedido": id_pedido,
+                    "id_mesa": id_mesa
+
+            }
+
+            guardar = mongo.db.pedido.insert_one(myquery)
+
+        # Almacenar datos en la coleccion detalle_pedido
+
+        cantiCarrito = mongo.db.carritoCompras.find(dataObject)
+        carritoData = list(cantiCarrito)
+        carritoData1 = json.loads(json_util.dumps(carritoData))
+        carritoDataObject = json.dumps(carritoData1)
+        carritoDataObject1 = json.loads(carritoDataObject)
+        cont1 = 0
+        for dat in mongo.db.carritoCompras.find(dataObject):
+            
+            id_platillo = carritoDataObject1[cont1]["id_platillo"]
+            precio_unitario = float(carritoDataObject1[cont1]["precio_unitario"])
+
+            cantidad = mongo.db.carritoCompras.find({
+                "id_platillo":id_platillo
+            }).count()
+
+            validacion = mongo.db.detalle_pedido.find({
+                "id_platillo":id_platillo
+            }).count()
+
+
+            if validacion == 0:
+
+                precio_total_platillo = precio_unitario * cantidad
+                myquery1 = {
+                    "id_pedido" : id_pedido,
+                    "id_platillo" : id_platillo,
+                    "platillo_cantidad" : cantidad,
+                    "precio_total_platillo": precio_total_platillo,
+                    "estado": "P"
+
+                }
+
+                insertar = mongo.db.detalle_pedido.insert_one(myquery1)
+
+            cont1 +=1
 
         for dat in mongo.db.carritoCompras.find(dataObject):
-            print(dat)
-            mongo.db.facturas.insert_one(dat)
-        print("agredo correctamente")
 
-
-        for dat in mongo.db.carritoCompras.find(dataObject):
-            print(dat)
             mongo.db.carritoCompras.delete_one(dat)
-        print("limpiar")
+  
 
 
 
         return jsonify({"transaccion": True, "mensaje": "confirmar el pedido de forma exitosa"}),200
-
-
-
-        
-        
-        
+  
         
     def RechazarPedido(self):
 
@@ -172,12 +224,6 @@ class Carrito():
             print(dat)
             mongo.db.carritoCompras.delete_one(dat)
 
-
-        
-
-                                                
-
-        
         return jsonify({"transaccion": True, "mensaje": "rechazar el pedido de forma exitosa"}),200
 
         

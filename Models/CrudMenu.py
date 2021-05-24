@@ -59,7 +59,21 @@ class CrudMenu():
     def crear(self):
 
         data = request.get_json()
-        guardar = mongo.db.menu.insert_one(data)
+        data2 = json.dumps(data)
+        dataObject = json.loads(data2)
+        id_platillo = int(dataObject['id_platillo'])
+        platillo = dataObject['platillo']
+        descripcion = dataObject['descripcion']
+        precio_unitario = float(dataObject['precio_unitario' ])
+        tipo = dataObject['tipo']
+
+        myquery = {
+            "id_platillo" : int(id_platillo),
+            "platillo": platillo,
+            "precio_unitario": float(precio_unitario),
+            "tipo": tipo
+        }
+        guardar = mongo.db.menu.insert_one(myquery)
         return jsonify({"transaccion": True, "mensaje": "Los datos se almacenaron de forma exitosa"})
 
     def actualizar(self):
@@ -67,20 +81,20 @@ class CrudMenu():
         data = request.get_json()
         data2 = json.dumps(data)
         dataObject = json.loads(data2)
-        id_platillo = dataObject['id_platillo']
+        id_platillo = int(dataObject['id_platillo'])
         platillo = dataObject['platillo']
         descripcion = dataObject['descripcion']
-        precio_unitario = dataObject['precio_unitario' ]
+        precio_unitario = float(dataObject['precio_unitario' ])
         tipo = dataObject['tipo']
         
         
         if data and id_platillo and platillo and descripcion and precio_unitario and tipo:
 
-            myquery = {'id_platillo': id_platillo}
+            myquery = {'id_platillo': int(id_platillo)}
             newValues = {"$set": {
                 'platillo': platillo,
                 'descripcion' : descripcion,
-                'precio_unitario' : precio_unitario,
+                'precio_unitario' : float(precio_unitario),
                 'tipo' : tipo 
             }}
             mongo.db.menu.update_one(myquery,newValues)
@@ -93,7 +107,7 @@ class CrudMenu():
         data2 = json.dumps(data)
         dataObject = json.loads(data2)
        
-        id_platillo = dataObject['id_platillo']
+        id_platillo = int(dataObject['id_platillo'])
 
         if data and id_platillo:
             mongo.db.menu.delete_one({'id_platillo': id_platillo})
