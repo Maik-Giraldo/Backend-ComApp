@@ -131,6 +131,10 @@ class Carrito():
         id_mesa = dataObject["id_mesa"]
         date = datetime.now()
         id_pedido = None
+        nombre = dataObject["nombre"]
+        documento = dataObject["documento"]
+        telefono = dataObject["telefono"]
+        correo = dataObject["correo"]
 
         # Almacenar datos en la coleccion pedidos
         if id_mesa and date:
@@ -157,7 +161,15 @@ class Carrito():
 
             }
 
+            myquery2= {
+                "nombre" : nombre,
+                "documento" : documento,
+                "telefono" : telefono,
+                "correo" : correo
+            }
+
             guardar = mongo.db.pedido.insert_one(myquery)
+            guardar2 = mongo.db.cliente.insert_one(myquery2)
 
         # Almacenar datos en la coleccion detalle_pedido
 
@@ -197,7 +209,7 @@ class Carrito():
 
             cont1 +=1
 
-        for dat in mongo.db.carritoCompras.find(dataObject):
+        for dat in mongo.db.carritoCompras.find({"id_mesa": dataObject["id_mesa"]}):
 
             mongo.db.carritoCompras.delete_one(dat)
   
