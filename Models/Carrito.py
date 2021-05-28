@@ -151,7 +151,7 @@ class Carrito():
 
             myquery= {
 
-                    "fecha/hora": date,
+                    "fecha_hora": date,
                     "id_pedido": id_pedido,
                     "id_mesa": id_mesa
 
