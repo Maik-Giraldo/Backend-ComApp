@@ -28,11 +28,11 @@ class PersonalCocina():
     
     def GetFacturas(self):
         print("ssss")
-        data = mongo.db.facturas.find({})
-        listado_facturas = list(data)
+        data = mongo.db.pedido_completo.find({})
+        listado_pedido = list(data)
 
 
         if data == None:
             data = []
 
-        return(listado_facturas)
+        return(listado_pedido)
