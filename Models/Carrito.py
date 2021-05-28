@@ -199,6 +199,7 @@ class Carrito():
             if validacion == 0:
 
                 precio_total_platillo = precio_unitario * cantidad
+                "COMENTARIO GUIA"
                 myquery1 = {
                     "id_pedido" : id_pedido,
                     "id_platillo" : id_platillo,
