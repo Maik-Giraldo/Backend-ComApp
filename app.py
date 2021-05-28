@@ -55,6 +55,8 @@ app.add_url_rule(RechazarPedido["rechazar_pedido"], view_func=RechazarPedido["re
 
 app.add_url_rule(PersonalCocina["personal_cocina"], view_func=PersonalCocina["personal_cocina_controllers"])
 
+app.add_url_rule(IngresarCliente["ingresar_cliente"], view_func=IngresarCliente["ingresar_cliente_controllers"])
+
 
 if __name__ == '__main__':
     app.secret_key = 'mysecret'

@@ -27,12 +27,10 @@ class PersonalCocina():
 
     
     def GetFacturas(self):
+        data = mongo.db.pedido_completo.find({})
+        listado_pedido = list(data)
         
-        
-        col = mongo.db.pedido_completo #Here spam is my collection
-        array = list(col.find())
+        if data == None:
+            data = []
 
-        print(array)
-        
-
-        return(array)
+        return(listado_pedido)

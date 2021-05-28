@@ -228,5 +228,11 @@ class ContadorCarritoControllers(MethodView):
 
         return (answer)
 
+class IngresarClienteControllers(MethodView):
+    def post(self):
+
+        answer = carrito.IngresarCliente()
+        return answer
+
 
 

@@ -5,6 +5,12 @@ from flask import jsonify, request
 import dropbox
 import random
 import os
+from app import app
+from flask_pymongo import PyMongo
+
+app.config["MONGO_URI"]='mongodb+srv://comApp:qawsed123@cluster0.adpmk.mongodb.net/comApp?retryWrites=true&w=majority'
+
+mongo = PyMongo(app)
 
 #Clase qrcode
 class Qrcode():
@@ -25,7 +31,9 @@ class Qrcode():
 
         content = request.get_json()
 
-        url = content.get('id_mesa')
+        id_mesa = content.get('id_mesa')
+
+        url = "http://localhost:4200/lectura/" + id_mesa
 
         nombre_json = content.get('nombre')
 
@@ -56,6 +64,12 @@ class Qrcode():
 
         link_image = link.url.replace('?dl=0', '?dl=1')
 
-        print(link_image)
+        myquery= {
+            "mesa" :id_mesa,
+            "url": link_image
+            }
+
+        guardar = mongo.db.mesa.insert_one(myquery)
+
 
         return link_image

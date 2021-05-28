@@ -25,7 +25,7 @@ bcrypt = Bcrypt(app)
 
 #Clase agregar
 class Carrito():
-    def __init__(self):
+    def _init_(self):
         pass
     def Agregar(self):
 
@@ -150,8 +150,7 @@ class Carrito():
                 id_pedido = 1
 
             myquery= {
-
-                    "fecha_hora": date,
+                    "fechaHora": date,
                     "id_pedido": id_pedido,
                     "id_mesa": id_mesa
 
@@ -173,17 +172,21 @@ class Carrito():
             precio_unitario = float(carritoDataObject1[cont1]["precio_unitario"])
 
             cantidad = mongo.db.carritoCompras.find({
-                "id_platillo":id_platillo
+                "id_platillo":id_platillo,
+                "id_mesa": id_mesa
             }).count()
+            
 
             validacion = mongo.db.detalle_pedido.find({
-                "id_platillo":id_platillo
+                "id_platillo":id_platillo,
+                "id_pedido": id_pedido
             }).count()
 
 
             if validacion == 0:
 
                 precio_total_platillo = precio_unitario * cantidad
+                "COMENTARIO GUIA"
                 myquery1 = {
                     "id_pedido" : id_pedido,
                     "id_platillo" : id_platillo,
@@ -214,8 +217,6 @@ class Carrito():
         dataObject = json.loads(data2)
         id_mesa = dataObject["id_mesa"]
 
-        print("entro a rechazar el pedido")
-        
         search= mongo.db.carritoCompras.find(dataObject)
 
         i = search.count()
@@ -225,6 +226,22 @@ class Carrito():
             mongo.db.carritoCompras.delete_one(dat)
 
         return jsonify({"transaccion": True, "mensaje": "rechazar el pedido de forma exitosa"}),200
+
+    def IngresarCliente(self):
+        data = request.get_json()
+        data2 = json.dumps(data)
+        dataObject = json.loads(data2)
+
+        if dataObject:
+            guardar = mongo.db.cliente.insert_one(dataObject)
+        
+        validacion = mongo.db.cliente.find_one(dataObject)
+
+        if validacion:
+            return jsonify({"transaccion": True, "mensaje": "Cliente exitoso"})
+        
+        return jsonify({"transaccion": False, "mensaje": "Ciente error"})
+
 
         
     
