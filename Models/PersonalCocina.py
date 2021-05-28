@@ -27,11 +27,9 @@ class PersonalCocina():
 
     
     def GetFacturas(self):
-        print("ssss")
         data = mongo.db.pedido_completo.find({})
         listado_pedido = list(data)
-
-
+        
         if data == None:
             data = []
 

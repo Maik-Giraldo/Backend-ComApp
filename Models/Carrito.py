@@ -150,7 +150,6 @@ class Carrito():
                 id_pedido = 1
 
             myquery= {
-
                     "fechaHora": date,
                     "id_pedido": id_pedido,
                     "id_mesa": id_mesa

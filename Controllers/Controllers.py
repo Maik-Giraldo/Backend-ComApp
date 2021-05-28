@@ -59,13 +59,23 @@ class LoginAdminControllers(MethodView):
         result = ""
 
         response = users.find_one({'correo': correo})
+
+
+        
+        
+
+
+        
     # 'correo': response['correo']
 
 
         if response:
+            
+            
             if bcrypt.check_password_hash(response['password'], password):
-                encoded_jwt = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=1000), 'correo': response['correo']}, KEY_TOKEN_AUTH , algorithm='HS256')
-                return jsonify({"Status": "Login exitoso", "token": str(encoded_jwt),'correo': response['correo']}), 200    
+
+                encoded_jwt = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=1000), 'correo': response['correo'],'rol': response['rol']}, KEY_TOKEN_AUTH , algorithm='HS256')
+                return jsonify({"Status": "Login exitoso", "token": str(encoded_jwt),'correo': response['correo'] , 'rol': response['rol'] }), 200    
                 
             else:
                 return jsonify({"error":"Invalid username and password"}),400
@@ -82,6 +92,8 @@ class RegisterUserControllers(MethodView):
         users = mongo.db.usuarios
         existing_user = users.find_one({'correo' : request.json['correo']})
         correo = request.get_json()['correo']
+        rol = request.get_json()['rol']
+        print(rol)
         password = bcrypt.generate_password_hash(request.get_json()['password']).decode('utf-8')
         
         if existing_user is None:
@@ -89,6 +101,7 @@ class RegisterUserControllers(MethodView):
             
                 'correo': correo,
                 'password': password,
+                'rol':rol
                 
             })
 
