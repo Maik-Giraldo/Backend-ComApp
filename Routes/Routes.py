@@ -1,5 +1,5 @@
 
-from Controllers.Controllers import QrCodeControllers ,RegisterUserControllers,LoginAdminControllers, MenuControllers, CrearMenuControllers,MandarMenuControllers, EditarMenuControllers, EliminarMenuControllers, AgregarCarritoControllers, EliminarCarritoControllers, CarritoCompras , ConfirmarPedidoControllers,RechazarPedidoControllers,PeticionEditarControllers,PeticionEliminarControllers,FacturasControllers
+from Controllers.Controllers import QrCodeControllers ,RegisterUserControllers,LoginAdminControllers, MenuControllers, CrearMenuControllers,MandarMenuControllers, EditarMenuControllers, EliminarMenuControllers, AgregarCarritoControllers, EliminarCarritoControllers, CarritoCompras , ConfirmarPedidoControllers,RechazarPedidoControllers,PeticionEditarControllers,PeticionEliminarControllers,FacturasControllers, IngresarClienteControllers
 
 
 suport = {
@@ -68,4 +68,8 @@ RechazarPedido = {
 
 PersonalCocina = {
      "personal_cocina": "/api/v01/menu/personalcocina", "personal_cocina_controllers": FacturasControllers.as_view("personal_cocina")
+}
+
+IngresarCliente = {
+     "ingresar_cliente": "/api/v01/menu/ingresarCliente", "ingresar_cliente_controllers": IngresarClienteControllers.as_view("ingresar_cliente")
 }
