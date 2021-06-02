@@ -57,6 +57,12 @@ app.add_url_rule(PersonalCocina["personal_cocina"], view_func=PersonalCocina["pe
 
 app.add_url_rule(IngresarCliente["ingresar_cliente"], view_func=IngresarCliente["ingresar_cliente_controllers"])
 
+app.add_url_rule(ConfirmarCocina["confirmar_cocina"], view_func=ConfirmarCocina["confirmar_cocina_controllers"])
+
+app.add_url_rule(FinalizarCocina["finalizar_cocina"], view_func=FinalizarCocina["finalizar_cocina_controllers"])
+
+app.add_url_rule(RechazarCocina["rechazar_cocina"], view_func=RechazarCocina["rechazar_cocina_controllers"])
+
 
 if __name__ == '__main__':
     app.secret_key = 'mysecret'

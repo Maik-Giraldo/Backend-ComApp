@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <title>FACTURA</title>
+    <h1 style="font-size: 12px; color: black;">Ocurrio un error y tu pedido fue rechazado. Lo lamentamos bastante. En un momento uno de los meseros le dara a conocer el motivo de rechazo y le indicara que hacer. A continuacion encontrara un resumen del pedido realizado</h1>
+    <div class="container">
+      <h1 style="color: white;">PEDIDO REALIZADO</h1>
+      <div class="row">
+        <div class="col">
+          <table class="table table-dark" style=" text-align: center; border: 1px; border-style: solid; border-color: black;">
+            <thead>
+              <tr style="border: 1px; border-style: solid; border-color: black;">
+                <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">FECHA Y HORA</th>
+                <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">PRECIO TOTAL</th>
+                <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">DATOS DEL CLIENTE</th>
+                <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">DATOS DEL PEDIDO</th>
+              </tr>
+            </thead>
+            {% for date in facturaData1 %}
+            <tbody>
+              <tr style=" text-align: center; border: 1px; border-style: solid; border-color: black;">
+                <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date['fechaHora']}}</td>
+                <td style="text-align: center; font-size: 15px; border: 1px; border-style: solid; border-color: black;" >{{date['precio_total']}}</td>
+                <td>
+                  <table>
+                    <thead>
+                      <th style="margin: auto; text-align: center; border: 1px; border-style: solid; border-color: black;">Nombre</th>
+                      <th style="margin: auto; text-align: center; border: 1px; border-style: solid; border-color: black;">Documento</th>
+                      <th style="margin: auto; text-align: center; border: 1px; border-style: solid; border-color: black;">Telefono</th>
+                    </thead>
+                    <tbody>
+                      {% for date2 in cliente %}
+                      <tr style=" text-align: center; border: 1px; border-style: solid; border-color: black;">
+                        <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date2['nombre']}}</td>
+                        <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date2['documento']}}</td>
+                        <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date2['telefono']}}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </td>
+                <td>
+                    <table style="text-align: center; border: 1px; border-style: solid; border-color: black;">
+                      <thead >
+                        <tr style="text-align: center; border: 1px; border-style: solid; border-color: black;">
+                          <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">platillo</th>
+                          <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">cantidad por unidad</th>
+                          <th style="margin: auto; text-align: center; border: 1px; border-style: solid; border-color: black;">informacion Platillo</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for date3 in date['detalle_pedido'] %}
+                        <tr style="text-align: center; border: 1px; border-style: solid; border-color: black;">
+                          <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date3['id_platillo']}}</td>
+                          <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date3['platillo_cantidad']}}</td>
+                          <td>
+                            <table>
+                              <thead>
+                                <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">Platillo</th>
+                                <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">Descipcion</th>
+                                <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">Precio</th>
+  
+                              </thead>
+                              <tbody>
+                                {% for date4 in date3['detalle_platillo'] %}
+                                <tr style="text-align: center; border: 1px; border-style: solid; border-color: black;">
+                                  <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date4['platillo']}}</td>
+                                  <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date4['descripcion']}}</td>
+                                  <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date4['precio_unitario']}}</td>
+  
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </td>
+              </tr>
+            </tbody>
+            {% endfor%}
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+  </body>
+</html>

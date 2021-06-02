@@ -234,5 +234,28 @@ class IngresarClienteControllers(MethodView):
         answer = carrito.IngresarCliente()
         return answer
 
+class ConfirmarCocinaControllers(MethodView):
+    def put(self):
+
+        answer = personalCocina.ConfirmarCocina()
+
+        return answer
+
+class FinalizarCocinaControllers(MethodView):
+    def put(self):
+
+        answer = personalCocina.FinalizarCocina()
+
+        return answer
+
+class RechazarCocinaControllers(MethodView):
+    def put(self):
+
+        answer = personalCocina.RechazarCocina()
+
+        return answer
+
+
+
 
 
