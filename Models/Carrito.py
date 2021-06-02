@@ -23,8 +23,12 @@ app.config["MONGO_URI"]='mongodb+srv://comApp:qawsed123@cluster0.adpmk.mongodb.n
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 
-#Clase agregar
+documentoCliente = None
+#Clase carrito
 class Carrito():
+
+
+
     def _init_(self):
         pass
     def Agregar(self):
@@ -49,7 +53,7 @@ class Carrito():
 
         }
 
-        if data:
+        if data and id_mesa:
 
             guardar = mongo.db.carritoCompras.insert_one(myquery)
 
@@ -123,17 +127,19 @@ class Carrito():
 
 
 
-    def ConfirmarPedido(self):       
-        
+    def ConfirmarPedido(self):     
+        documento_cliente = documentoCliente
         data = request.get_json()
         data2 = json.dumps(data)
         dataObject = json.loads(data2)
         id_mesa = dataObject["id_mesa"]
         date = datetime.now()
         id_pedido = None
+        
 
+        
         # Almacenar datos en la coleccion pedidos
-        if id_mesa and date:
+        if id_mesa and date and documento_cliente:
 
             maximo = mongo.db.pedido.find().sort("id_pedido", -1)
             cantidad = maximo.count()
@@ -152,11 +158,21 @@ class Carrito():
             myquery= {
                     "fechaHora": date,
                     "id_pedido": id_pedido,
-                    "id_mesa": id_mesa
+                    "id_mesa": id_mesa,
+                    "estado": "pendiente"
 
             }
 
             guardar = mongo.db.pedido.insert_one(myquery)
+
+            myquery2 = {'documento': str(documento_cliente)}
+            newValues = {"$set": {
+                'id_pedido': id_pedido
+            }}
+
+            actualizar = mongo.db.cliente.update_one(myquery2, newValues)
+
+            
 
         # Almacenar datos en la coleccion detalle_pedido
 
@@ -191,8 +207,7 @@ class Carrito():
                     "id_pedido" : id_pedido,
                     "id_platillo" : id_platillo,
                     "platillo_cantidad" : cantidad,
-                    "precio_total_platillo": precio_total_platillo,
-                    "estado": "P"
+                    "precio_total_platillo": precio_total_platillo
 
                 }
 
@@ -204,8 +219,6 @@ class Carrito():
 
             mongo.db.carritoCompras.delete_one(dat)
   
-
-
 
         return jsonify({"transaccion": True, "mensaje": "confirmar el pedido de forma exitosa"}),200
   
@@ -231,6 +244,10 @@ class Carrito():
         data = request.get_json()
         data2 = json.dumps(data)
         dataObject = json.loads(data2)
+        global documentoCliente  
+        documentoCliente = dataObject['documento']
+
+        
 
         if dataObject:
             guardar = mongo.db.cliente.insert_one(dataObject)
@@ -241,6 +258,8 @@ class Carrito():
             return jsonify({"transaccion": True, "mensaje": "Cliente exitoso"})
         
         return jsonify({"transaccion": False, "mensaje": "Ciente error"})
+
+
 
 
         

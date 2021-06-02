@@ -1,5 +1,5 @@
 
-from Controllers.Controllers import QrCodeControllers ,RegisterUserControllers,LoginAdminControllers, MenuControllers, CrearMenuControllers,MandarMenuControllers, EditarMenuControllers, EliminarMenuControllers, AgregarCarritoControllers, EliminarCarritoControllers, CarritoCompras , ConfirmarPedidoControllers,RechazarPedidoControllers,PeticionEditarControllers,PeticionEliminarControllers,FacturasControllers, IngresarClienteControllers
+from Controllers.Controllers import QrCodeControllers ,RegisterUserControllers,LoginAdminControllers, MenuControllers, CrearMenuControllers,MandarMenuControllers, EditarMenuControllers, EliminarMenuControllers, AgregarCarritoControllers, EliminarCarritoControllers, CarritoCompras , ConfirmarPedidoControllers,RechazarPedidoControllers,PeticionEditarControllers,PeticionEliminarControllers,FacturasControllers, IngresarClienteControllers, ConfirmarCocinaControllers, FinalizarCocinaControllers, RechazarCocinaControllers
 
 
 suport = {
@@ -72,4 +72,16 @@ PersonalCocina = {
 
 IngresarCliente = {
      "ingresar_cliente": "/api/v01/menu/ingresarCliente", "ingresar_cliente_controllers": IngresarClienteControllers.as_view("ingresar_cliente")
+}
+
+ConfirmarCocina = {
+     "confirmar_cocina": "/api/v01/menu/confirmarCocina", "confirmar_cocina_controllers": ConfirmarCocinaControllers.as_view("confirmar_cocina")
+}
+
+FinalizarCocina = {
+     "finalizar_cocina": "/api/v01/menu/finalizarCocina", "finalizar_cocina_controllers": FinalizarCocinaControllers.as_view("finalizar_cocina")
+}
+
+RechazarCocina = {
+     "rechazar_cocina": "/api/v01/menu/rechazarCocina", "rechazar_cocina_controllers": RechazarCocinaControllers.as_view("rechazar_cocina")
 }
