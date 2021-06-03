@@ -6,6 +6,12 @@ import smtplib
 from email.mime.text import MIMEText
 from flask import jsonify, request, render_template
 import json
+import os
+from PIL import Image
+from io import BytesIO  
+import base64
+import dropbox
+import random
 
 class Peticion():
 
@@ -21,9 +27,47 @@ class Peticion():
         descripcion = dataObject['descripcion']
         precio_unitario = dataObject['precio_unitario' ]
         tipo = dataObject['tipo']
+        img = dataObject['img']
+        img_final = ''
+        
+        if "data:image/gif;base64," in img:
+            img_final = img[22::]
+
+        elif "data:image/jpeg;base64," in img:
+            img_final = img[23::]
+
+        elif "data:image/png;base64," in img:
+            img_final = img[22::]
+        
+        else:
+            return jsonify({}), 200
+
+        nameImg = str(platillo)
+        im = Image.open(BytesIO(base64.b64decode(img_final)))
+        im.save('{}'.format(nameImg+'.png'), 'PNG')
+        nombre_image = nameImg+'.png'
+
+        key = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMOPQRSTUVWXYZ+%$'
+        
+        string_random = ''.join(random.sample(key, 64))
+
+        nombre = string_random + platillo + '.jpg'
+
+        result = ''
+
+        dbx = dropbox.Dropbox('i55bkV3doxoAAAAAAAAAAZHHYiUBwkXoHtTHt-S-1R7WmzjiR3CF1qH3LydQ4WEA')
+
+        with open(nombre_image, 'rb') as f:
+            result = dbx.files_upload(f.read(), '/ComApp/peticion_menu/' + nombre)
+
+        os.remove(nombre_image)
+
+        link = dbx.sharing_create_shared_link(path='/ComApp/peticion_menu/' + nombre)
+
+        link_image = link.url.replace('?dl=0', '?dl=1')
 
         subject = 'peticion para agregar'
-        archivo = render_template("correo.html", id_platillo = id_platillo, subject = subject, platillo= platillo, descripcion= descripcion, precio_unitario =precio_unitario , tipo= tipo  )
+        archivo = render_template("correo.html", id_platillo = id_platillo, subject = subject, platillo= platillo, descripcion= descripcion, precio_unitario =precio_unitario , tipo= tipo, image= link_image)
 
         proveedor_correo = 'smtp.live.com: 587'
         remitente = 'felipetabordasanchez@outlook.es'
@@ -41,7 +85,7 @@ class Peticion():
         msg = MIMEMultipart()
         msg.attach(MIMEText(mensaje, 'html'))
         msg['From'] = remitente
-        msg['To'] = 'felipetabordasanchez@gmail.com'
+        msg['To'] = 'michaelgiraldo40@gmail.com'
         msg['Subject'] = 'COMAPP - peticion para agregar un nuevo platillo'
         servidor.sendmail(msg['From'] , msg['To'], msg.as_string())
 
@@ -54,10 +98,47 @@ class Peticion():
         descripcion = dataObject['descripcion']
         precio_unitario = dataObject['precio_unitario' ]
         tipo = dataObject['tipo']
+        img = dataObject['img']
+        img_final = ''
+        
+        if "data:image/gif;base64," in img:
+            img_final = img[22::]
+
+        elif "data:image/jpeg;base64," in img:
+            img_final = img[23::]
+
+        elif "data:image/png;base64," in img:
+            img_final = img[22::]
+        
+        else:
+            return jsonify({}), 200
+
+        nameImg = str(platillo)
+        im = Image.open(BytesIO(base64.b64decode(img_final)))
+        im.save('{}'.format(nameImg+'.png'), 'PNG')
+        nombre_image = nameImg+'.png'
+
+        key = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMOPQRSTUVWXYZ+%$'
+        
+        string_random = ''.join(random.sample(key, 64))
+
+        nombre = string_random + platillo + '.jpg'
+
+        result = ''
+
+        dbx = dropbox.Dropbox('i55bkV3doxoAAAAAAAAAAZHHYiUBwkXoHtTHt-S-1R7WmzjiR3CF1qH3LydQ4WEA')
+
+        with open(nombre_image, 'rb') as f:
+            result = dbx.files_upload(f.read(), '/ComApp/Menu/' + nombre)
+
+        os.remove(nombre_image)
+
+        link = dbx.sharing_create_shared_link(path='/ComApp/Menu/' + nombre)
+
+        link_image = link.url.replace('?dl=0', '?dl=1')
 
         subject = 'peticion para editar'
-        archivo = render_template("correo.html", id_platillo = id_platillo, subject = subject, platillo= platillo, descripcion= descripcion, precio_unitario =precio_unitario , tipo= tipo  )
-
+        archivo = render_template("correo.html", id_platillo = id_platillo, subject = subject, platillo= platillo, descripcion= descripcion, precio_unitario =precio_unitario , tipo= tipo, image= link_image  )
         proveedor_correo = 'smtp.live.com: 587'
         remitente = 'felipetabordasanchez@outlook.es'
         password = 'qawsed123'
@@ -72,7 +153,7 @@ class Peticion():
         msg = MIMEMultipart()
         msg.attach(MIMEText(mensaje, 'html'))
         msg['From'] = remitente
-        msg['To'] = 'felipetabordasanchez@gmail.com'
+        msg['To'] = 'michaelgiraldo40@gmail.com'
         msg['Subject'] = ' COMAPP - Peticion para editar un platillo'
         servidor.sendmail(msg['From'] , msg['To'], msg.as_string())
 
@@ -88,7 +169,7 @@ class Peticion():
         tipo = dataObject['tipo']
 
         subject = 'peticion para Eliminar'
-        archivo = render_template("correo.html", id_platillo = id_platillo, subject = subject, platillo= platillo, descripcion= descripcion, precio_unitario =precio_unitario , tipo= tipo  )
+        archivo = render_template("correo.html", id_platillo = id_platillo, subject = subject, platillo= platillo, descripcion= descripcion, precio_unitario =precio_unitario , tipo= tipo)
 
         proveedor_correo = 'smtp.live.com: 587'
         remitente = 'felipetabordasanchez@outlook.es'

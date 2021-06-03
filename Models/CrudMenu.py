@@ -12,6 +12,13 @@ from flask_bcrypt import Bcrypt
 import binascii
 from app import app
 
+import os
+from PIL import Image
+from io import BytesIO  
+import base64
+import dropbox
+import random
+
 #Importacion de modelos
 
 
@@ -37,7 +44,6 @@ class CrudMenu():
 
         data = mongo.db.menu.find({})
         listado_documentos = list(data)
-
 
         if data == None:
             data = []
@@ -66,12 +72,52 @@ class CrudMenu():
         descripcion = dataObject['descripcion']
         precio_unitario = float(dataObject['precio_unitario' ])
         tipo = dataObject['tipo']
+        img = dataObject['img']
+        img_final = ''
+        
+        if "data:image/gif;base64," in img:
+            img_final = img[22::]
+
+        elif "data:image/jpeg;base64," in img:
+            img_final = img[23::]
+
+        elif "data:image/png;base64," in img:
+            img_final = img[22::]
+        
+        else:
+            return jsonify({}), 200
+
+        nameImg = str(platillo)
+        im = Image.open(BytesIO(base64.b64decode(img_final)))
+        im.save('{}'.format(nameImg+'.png'), 'PNG')
+        nombre_image = nameImg+'.png'
+
+        key = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMOPQRSTUVWXYZ+%$'
+        
+        string_random = ''.join(random.sample(key, 64))
+
+        nombre = string_random + platillo + '.jpg'
+
+        result = ''
+
+        dbx = dropbox.Dropbox('i55bkV3doxoAAAAAAAAAAZHHYiUBwkXoHtTHt-S-1R7WmzjiR3CF1qH3LydQ4WEA')
+
+        with open(nombre_image, 'rb') as f:
+            result = dbx.files_upload(f.read(), '/ComApp/Menu/' + nombre)
+
+        os.remove(nombre_image)
+
+        link = dbx.sharing_create_shared_link(path='/ComApp/Menu/' + nombre)
+
+        link_image = link.url.replace('?dl=0', '?dl=1')
 
         myquery = {
             "id_platillo" : int(id_platillo),
             "platillo": platillo,
+            "descripcion": descripcion,
             "precio_unitario": float(precio_unitario),
-            "tipo": tipo
+            "tipo": tipo,
+            "img": link_image
         }
         guardar = mongo.db.menu.insert_one(myquery)
         return jsonify({"transaccion": True, "mensaje": "Los datos se almacenaron de forma exitosa"})
@@ -86,7 +132,44 @@ class CrudMenu():
         descripcion = dataObject['descripcion']
         precio_unitario = float(dataObject['precio_unitario' ])
         tipo = dataObject['tipo']
+        img = dataObject['img']
+        img_final = ''
         
+        if "data:image/gif;base64," in img:
+            img_final = img[22::]
+
+        elif "data:image/jpeg;base64," in img:
+            img_final = img[23::]
+
+        elif "data:image/png;base64," in img:
+            img_final = img[22::]
+        
+        else:
+            return jsonify({}), 200
+
+        nameImg = str(platillo)
+        im = Image.open(BytesIO(base64.b64decode(img_final)))
+        im.save('{}'.format(nameImg+'.png'), 'PNG')
+        nombre_image = nameImg+'.png'
+
+        key = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMOPQRSTUVWXYZ+%$'
+        
+        string_random = ''.join(random.sample(key, 64))
+
+        nombre = string_random + platillo + '.jpg'
+
+        result = ''
+
+        dbx = dropbox.Dropbox('i55bkV3doxoAAAAAAAAAAZHHYiUBwkXoHtTHt-S-1R7WmzjiR3CF1qH3LydQ4WEA')
+
+        with open(nombre_image, 'rb') as f:
+            result = dbx.files_upload(f.read(), '/ComApp/Menu/' + nombre)
+
+        os.remove(nombre_image)
+
+        link = dbx.sharing_create_shared_link(path='/ComApp/Menu/' + nombre)
+
+        link_image = link.url.replace('?dl=0', '?dl=1')
         
         if data and id_platillo and platillo and descripcion and precio_unitario and tipo:
 
