@@ -1,0 +1,11 @@
+dropbox==11.5.0
+Flask-Bcrypt==0.7.1
+Flask==1.1.2
+Flask-Cors==3.0.9
+Flask-PyMongo==2.3.0
+Pillow==8.1.2
+PyJWT==2.0.1
+pymongo==3.11.3
+qrcode==6.1
+requests==2.25.1
+Werkzeug==1.0.1
