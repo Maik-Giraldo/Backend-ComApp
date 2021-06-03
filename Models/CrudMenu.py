@@ -178,7 +178,8 @@ class CrudMenu():
                 'platillo': platillo,
                 'descripcion' : descripcion,
                 'precio_unitario' : float(precio_unitario),
-                'tipo' : tipo 
+                'tipo' : tipo, 
+                'img' : link_image
             }}
             mongo.db.menu.update_one(myquery,newValues)
 
