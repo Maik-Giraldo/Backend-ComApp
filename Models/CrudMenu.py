@@ -134,43 +134,49 @@ class CrudMenu():
         tipo = dataObject['tipo']
         img = dataObject['img']
         img_final = ''
-        
+  
+        imagen_cambio = False
+        link_image = img
+
         if "data:image/gif;base64," in img:
             img_final = img[22::]
+            imagen_cambio = True
 
-        elif "data:image/jpeg;base64," in img:
+        if "data:image/jpeg;base64," in img:
             img_final = img[23::]
+            imagen_cambio = True
 
-        elif "data:image/png;base64," in img:
+        if "data:image/png;base64," in img:
             img_final = img[22::]
+            imagen_cambio = True
         
-        else:
-            return jsonify({}), 200
+        if imagen_cambio: 
+            nameImg = str(platillo)
+            im = Image.open(BytesIO(base64.b64decode(img_final)))
+            im.save('{}'.format(nameImg+'.png'), 'PNG')
+            nombre_image = nameImg+'.png'
 
-        nameImg = str(platillo)
-        im = Image.open(BytesIO(base64.b64decode(img_final)))
-        im.save('{}'.format(nameImg+'.png'), 'PNG')
-        nombre_image = nameImg+'.png'
+            key = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMOPQRSTUVWXYZ+%$'
+            
+            string_random = ''.join(random.sample(key, 64))
 
-        key = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMOPQRSTUVWXYZ+%$'
+            nombre = string_random + platillo + '.jpg'
+
+            result = ''
+
+            dbx = dropbox.Dropbox('i55bkV3doxoAAAAAAAAAAZHHYiUBwkXoHtTHt-S-1R7WmzjiR3CF1qH3LydQ4WEA')
+
+            with open(nombre_image, 'rb') as f:
+                result = dbx.files_upload(f.read(), '/ComApp/Menu/' + nombre)
+
+            os.remove(nombre_image)
+
+            link = dbx.sharing_create_shared_link(path='/ComApp/Menu/' + nombre)
+
+            link_image = link.url.replace('?dl=0', '?dl=1')
+
         
-        string_random = ''.join(random.sample(key, 64))
 
-        nombre = string_random + platillo + '.jpg'
-
-        result = ''
-
-        dbx = dropbox.Dropbox('i55bkV3doxoAAAAAAAAAAZHHYiUBwkXoHtTHt-S-1R7WmzjiR3CF1qH3LydQ4WEA')
-
-        with open(nombre_image, 'rb') as f:
-            result = dbx.files_upload(f.read(), '/ComApp/Menu/' + nombre)
-
-        os.remove(nombre_image)
-
-        link = dbx.sharing_create_shared_link(path='/ComApp/Menu/' + nombre)
-
-        link_image = link.url.replace('?dl=0', '?dl=1')
-        
         if data and id_platillo and platillo and descripcion and precio_unitario and tipo:
 
             myquery = {'id_platillo': int(id_platillo)}
@@ -183,7 +189,8 @@ class CrudMenu():
             }}
             mongo.db.menu.update_one(myquery,newValues)
 
-            return jsonify({"transaccion": True, "mensaje": "EL usuario fue actualizado satisfactoriamente"})
+            return jsonify({"transaccion": True, "mensaje": "El platillo fue actualizado satisfactoriamente"})
+        # return jsonify({"transaccion": True, "mensaje":})
     def eliminar(self):
 
         
