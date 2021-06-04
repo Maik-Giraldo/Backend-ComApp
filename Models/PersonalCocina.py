@@ -222,6 +222,18 @@ class PersonalCocina():
         
         return jsonify({"transaccion": False}),200
 
+    def FacturaCliente(self):
+        
+
+        data = mongo.db.factura_final.find({})
+
+        listado_pedido = list(data)
+
+ 
+        if data == None:
+            data = []
+
+        return (listado_pedido)
 
 
 
