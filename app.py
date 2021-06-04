@@ -63,6 +63,8 @@ app.add_url_rule(FinalizarCocina["finalizar_cocina"], view_func=FinalizarCocina[
 
 app.add_url_rule(RechazarCocina["rechazar_cocina"], view_func=RechazarCocina["rechazar_cocina_controllers"])
 
+app.add_url_rule(FacturaCliente["factura_cliente"], view_func=FacturaCliente["factura_cliente_controllers"])
+
 
 if __name__ == '__main__':
     app.secret_key = 'mysecret'

@@ -233,7 +233,6 @@ class IngresarClienteControllers(MethodView):
 
         answer = carrito.IngresarCliente()
         return answer
-
 class ConfirmarCocinaControllers(MethodView):
     def put(self):
 
@@ -255,7 +254,12 @@ class RechazarCocinaControllers(MethodView):
 
         return answer
 
+class FacturaClienteControllers(MethodView):
+    def get(self):
 
+        answer = personalCocina.FacturaCliente()
+
+        return jsonify({"transaccion":True,"data":answer})
 
 
 
