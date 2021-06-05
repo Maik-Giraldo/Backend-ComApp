@@ -22,6 +22,7 @@ class Qrcode():
     Responsable: Michael Giraldo
     '''
 
+    #Inicializacion de la clase
     def __init__(self):
         self.url = ''
         self.nombre = ''

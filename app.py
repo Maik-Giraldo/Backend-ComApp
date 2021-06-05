@@ -22,7 +22,7 @@ CORS(app, resources={
 #importacion de rutas
 from Routes.Routes import *
 
-#Reglas de rutas Suport
+#Reglas de rutas
 app.add_url_rule(suport["qrcode"], view_func=suport["qrcodecontrollers"])
 
 app.add_url_rule(user["register_user"], view_func=user["register_user_controllers"])

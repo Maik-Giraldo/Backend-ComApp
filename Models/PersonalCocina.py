@@ -15,30 +15,30 @@ from datetime import datetime
 from bson.objectid import ObjectId 
 from bson import json_util, ObjectId
 
+#Importacion de libreria para correo
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from smtplib import SMTP
 import smtplib
 from email.mime.text import MIMEText
 
-
-
-
-
-#Importacion de modelos
-
-
+#Conexion con base de datos
 app.config["MONGO_URI"]='mongodb+srv://comApp:qawsed123@cluster0.adpmk.mongodb.net/comApp?retryWrites=true&w=majority'
-
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 
-
+#Clase Personal de Cocina
 class PersonalCocina():
+    '''
+    Class Personal Cocina
+    @Methods (Getfacturas, confirmarCocina, finalizarCocina, RechazarCocina, facturarCliente)
+    @return
+    Responsable: Michael Giraldo, Andres taborda, Juan Leiton
+    '''
     def __init__(self):
         pass
 
-    
+    #Metodo ver facturas
     def GetFacturas(self):
         data = mongo.db.pedido_completo.find({})
         listado_pedido = list(data)
@@ -48,6 +48,7 @@ class PersonalCocina():
 
         return(listado_pedido)
 
+    #Metodo Confirmar pedido
     def ConfirmarCocina(self):
         data = request.get_json()
         data2 = json.dumps(data)
@@ -86,8 +87,7 @@ class PersonalCocina():
 
             cambiarEstado = mongo.db.pedido.update_one(myquery2,newValues)
 
-            #ENVIAR CORREO
-
+            #ENVIAR CORREO DE FACTURA
             factura = mongo.db.factura_final.find({'id_pedido': id_pedido})
             facturaData = list(factura)
             facturaData1 = json.loads(json_util.dumps(facturaData))
@@ -124,10 +124,7 @@ class PersonalCocina():
         
         return jsonify({"transaccion": False}),200
 
-
-       
-        
-
+    #Metodo Finalizar pedido
     def FinalizarCocina(self):
         data = request.get_json()
         data2 = json.dumps(data)
@@ -148,6 +145,7 @@ class PersonalCocina():
             return jsonify({"transaccion": True}),200
         return jsonify({"transaccion": False}),200
 
+    #Metodo rechazar pedido
     def RechazarCocina(self):
         data = request.get_json()
         data2 = json.dumps(data)
@@ -183,12 +181,13 @@ class PersonalCocina():
                     'detalle_pedido' : detalle_pedido,
                 }
 
+                #Consulta en base de datos para generar mensaje de rechazo de pedido por correo
                 rechazo = mongo.db.pedidos_rechazados.insert_one(myquery2)
                 pedidoRechazado = mongo.db.pedidos_rechazados.find({'id_pedido':id_pedido, 'fechaHora' : fechaHora})
                 facturaData = list(pedidoRechazado)
                 facturaData1 = json.loads(json_util.dumps(facturaData))
 
-
+                #ENvio del correo
                 subject = 'Ocurrio un error con tu pedido - ComApp'
                 archivo = render_template("correoRechazo.html",facturaData1 = facturaData1, cliente = cliente2)
 
@@ -222,13 +221,12 @@ class PersonalCocina():
         
         return jsonify({"transaccion": False}),200
 
+    #Metodo Factura cliete
     def FacturaCliente(self):
-        
-
+        #Buscar factura por cliente
         data = mongo.db.factura_final.find({})
 
         listado_pedido = list(data)
-
  
         if data == None:
             data = []

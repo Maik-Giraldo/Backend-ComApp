@@ -13,11 +13,20 @@ import base64
 import dropbox
 import random
 
+#Clase peticion
 class Peticion():
+
+    '''
+    Class Peticion
+    @Methods (Peticion, peticionEditar, PeticionEliminar)
+    @return
+    Responsable: Michael Giraldo, Andres taborda, Juan Leiton
+    '''
 
     def __init__(self):
         pass
 
+    #Metodo peticion agregar
     def peticion(self):
         data = request.get_json()
         data2 = json.dumps(data)
@@ -30,6 +39,7 @@ class Peticion():
         img = dataObject['img']
         img_final = ''
         
+        #Validacion si la imagem es (gif, jpeg, png)
         if "data:image/gif;base64," in img:
             img_final = img[22::]
 
@@ -42,6 +52,7 @@ class Peticion():
         else:
             return jsonify({}), 200
 
+        #Guardar imagen en la nube
         nameImg = str(platillo)
         im = Image.open(BytesIO(base64.b64decode(img_final)))
         im.save('{}'.format(nameImg+'.png'), 'PNG')
@@ -66,6 +77,7 @@ class Peticion():
 
         link_image = link.url.replace('?dl=0', '?dl=1')
 
+        #Enviar correo de peticion
         subject = 'peticion para agregar'
         archivo = render_template("correo.html", id_platillo = id_platillo, subject = subject, platillo= platillo, descripcion= descripcion, precio_unitario =precio_unitario , tipo= tipo, image= link_image)
 
@@ -89,6 +101,7 @@ class Peticion():
         msg['Subject'] = 'COMAPP - peticion para agregar un nuevo platillo'
         servidor.sendmail(msg['From'] , msg['To'], msg.as_string())
 
+    #Metodo peticion editar
     def peticionEditar(self):
         data = request.get_json()
         data2 = json.dumps(data)
@@ -101,9 +114,11 @@ class Peticion():
         img = dataObject['img']
         img_final = ''
 
+        #variable para validar si esta cambiando la imagen o esta insertando una nueva
         imagen_cambio = False
         link_image = img
 
+        #Validacion si la imagen es (gif, jpeg, png) 
         if "data:image/gif;base64," in img:
             img_final = img[22::]
             imagen_cambio = True
@@ -116,7 +131,7 @@ class Peticion():
             img_final = img[22::]
             imagen_cambio = True
         
-
+        #Validacion si esta cambaindo la imagen o es una nueva imagen opara enviar el correo de peticion
         if imagen_cambio:
             nameImg = str(platillo)
             im = Image.open(BytesIO(base64.b64decode(img_final)))
@@ -142,6 +157,7 @@ class Peticion():
 
             link_image = link.url.replace('?dl=0', '?dl=1')
 
+        #Envio del correo de peticion
         subject = 'peticion para editar'
         archivo = render_template("correo.html", id_platillo = id_platillo, subject = subject, platillo= platillo, descripcion= descripcion, precio_unitario =precio_unitario , tipo= tipo, image= link_image  )
         proveedor_correo = 'smtp.gmail.com: 587'
@@ -162,8 +178,8 @@ class Peticion():
         msg['Subject'] = ' COMAPP - Peticion para editar un platillo'
         servidor.sendmail(msg['From'] , msg['To'], msg.as_string())
 
+    #Metodo peticion eliminar
     def peticionEliminar(self):
- 
         data = request.get_json()
         data2 = json.dumps(data)
         dataObject = json.loads(data2)
@@ -173,6 +189,7 @@ class Peticion():
         precio_unitario = dataObject['precio_unitario' ]
         tipo = dataObject['tipo']
 
+        #Envio de correo para peticion para eliminar
         subject = 'peticion para Eliminar'
         archivo = render_template("correo.html", id_platillo = id_platillo, subject = subject, platillo= platillo, descripcion= descripcion, precio_unitario =precio_unitario , tipo= tipo)
 

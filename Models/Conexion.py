@@ -1,4 +1,4 @@
-#importacion de librerias necsarias
+#importacion de librerias necesarias
 from flask_pymongo import PyMongo
 import json, datetime
 from bson.objectid import ObjectId
