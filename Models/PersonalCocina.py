@@ -102,8 +102,8 @@ class PersonalCocina():
             subject = 'Factura de compra - ComApp'
             archivo = render_template("correoFactura.html",facturaData1 = facturaData1)
 
-            proveedor_correo = 'smtp.gmail.com: 587'
-            remitente = 'comapp.helloworld@gmail.com'
+            proveedor_correo = 'smtp.live.com: 587'
+            remitente = 'comapp.hw@hotmail.com'
             password = 'comapp123'
             #conexion a servidor
             servidor = smtplib.SMTP(proveedor_correo)
@@ -191,8 +191,8 @@ class PersonalCocina():
                 subject = 'Ocurrio un error con tu pedido - ComApp'
                 archivo = render_template("correoRechazo.html",facturaData1 = facturaData1, cliente = cliente2)
 
-                proveedor_correo = 'smtp.gmail.com: 587'
-                remitente = 'comapp.helloworld@gmail.com'
+                proveedor_correo = 'smtp.live.com: 587'
+                remitente = 'comapp.hw@hotmail.com'
                 password = 'comapp123'
                 #conexion a servidor
                 servidor = smtplib.SMTP(proveedor_correo)

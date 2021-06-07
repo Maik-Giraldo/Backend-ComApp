@@ -81,8 +81,8 @@ class Peticion():
         subject = 'peticion para agregar'
         archivo = render_template("correo.html", id_platillo = id_platillo, subject = subject, platillo= platillo, descripcion= descripcion, precio_unitario =precio_unitario , tipo= tipo, image= link_image)
 
-        proveedor_correo = 'smtp.gmail.com: 587'
-        remitente = 'comapp.helloworld@gmail.com'
+        proveedor_correo = 'smtp.live.com: 587'
+        remitente = 'comapp.hw@hotmail.com'
         password = 'comapp123'
         #conexion a servidor
         servidor = smtplib.SMTP(proveedor_correo)
@@ -160,8 +160,8 @@ class Peticion():
         #Envio del correo de peticion
         subject = 'peticion para editar'
         archivo = render_template("correo.html", id_platillo = id_platillo, subject = subject, platillo= platillo, descripcion= descripcion, precio_unitario =precio_unitario , tipo= tipo, image= link_image  )
-        proveedor_correo = 'smtp.gmail.com: 587'
-        remitente = 'comapp.helloworld@gmail.com'
+        proveedor_correo = 'smtp.live.com: 587'
+        remitente = 'comapp.hw@hotmail.com'
         password = 'comapp123'
         #conexion a servidor
         servidor = smtplib.SMTP(proveedor_correo)
@@ -193,8 +193,8 @@ class Peticion():
         subject = 'peticion para Eliminar'
         archivo = render_template("correo.html", id_platillo = id_platillo, subject = subject, platillo= platillo, descripcion= descripcion, precio_unitario =precio_unitario , tipo= tipo)
 
-        proveedor_correo = 'smtp.gmail.com: 587'
-        remitente = 'comapp.helloworld@gmail.com'
+        proveedor_correo = 'smtp.live.com: 587'
+        remitente = 'comapp.hw@hotmail.com'
         password = 'comapp123'
         #conexion a servidor
         servidor = smtplib.SMTP(proveedor_correo)
