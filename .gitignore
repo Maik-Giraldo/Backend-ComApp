@@ -1,2 +1,5 @@
 __pycache__/
 hw-comapp/
+manifest.yml
+setup.py
+Dockerfile

@@ -1,13 +1,14 @@
 #importaciones de librerias y framework
 from flask import Flask
 from flask_cors import CORS
+import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 
 #importacion de modelos
 from Models.Conexion import * 
 
-
+port = int(os.getenv('PORT', 8000))
 
 #Configuracion en el CORS
 CORS(app, resources={
@@ -65,7 +66,6 @@ app.add_url_rule(RechazarCocina["rechazar_cocina"], view_func=RechazarCocina["re
 
 app.add_url_rule(FacturaCliente["factura_cliente"], view_func=FacturaCliente["factura_cliente_controllers"])
 
-
 if __name__ == '__main__':
     app.secret_key = 'mysecret'
-    app.run(debug=True,port=5000)
+    app.run(host='0.0.0.0', debug=True, port=port)

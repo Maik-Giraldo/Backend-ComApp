@@ -7,6 +7,7 @@ import random
 import os
 from app import app
 from flask_pymongo import PyMongo
+from os import getenv
 
 app.config["MONGO_URI"]='mongodb+srv://comApp:qawsed123@cluster0.adpmk.mongodb.net/comApp?retryWrites=true&w=majority'
 
@@ -36,7 +37,8 @@ class Qrcode():
 
         # url = "http://localhost:4200/lectura/" + id_mesa
 
-        url = "https://comapp-e5279.web.app/lectura/" + id_mesa
+        url_env = getenv("url_front","http://localhost:4200/lectura/")
+        url = url_env + id_mesa
 
         nombre_json = content.get('nombre')
 
