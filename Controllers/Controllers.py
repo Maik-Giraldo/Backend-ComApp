@@ -170,7 +170,7 @@ Methods POST
 class MandarMenuControllers(MethodView):
     def post(self):
         answer = peticion.peticion()
-        return jsonify({"transaccion": True, "mensaje": "Los datos se enviaron de forma exitosa"})
+        return (answer)
 
 '''
 Clase Peticion Editar
@@ -180,7 +180,7 @@ Methods POST
 class PeticionEditarControllers(MethodView):
     def post(self):
         answer = peticion.peticionEditar()
-        return jsonify({"transaccion": True, "mensaje": "Los datos se enviaron de forma exitosa"})
+        return (answer)
 
 '''
 Clase Peticion Eliminar
@@ -190,7 +190,7 @@ Methods POST
 class PeticionEliminarControllers(MethodView):
     def post(self):
         answer = peticion.peticionEliminar()
-        return jsonify({"transaccion": True, "mensaje": "Los datos se enviaron de forma exitosa"})
+        return (answer)
 
 '''
 Clase Editar Menu
