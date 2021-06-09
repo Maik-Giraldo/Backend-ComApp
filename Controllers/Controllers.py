@@ -82,7 +82,6 @@ class RegisterUserControllers(MethodView):
         existing_user = users.find_one({'correo' : request.json['correo']})
         correo = request.get_json()['correo']
         rol = request.get_json()['rol']
-        print(rol)
         password = bcrypt.generate_password_hash(request.get_json()['password']).decode('utf-8')
         
         #Inserción a la base de datos si es usuario no existe
@@ -125,7 +124,6 @@ Methods GET
 class CarritoCompras(MethodView):
     def get(self):
         id_mesa = int(request.headers.get('id_mesa').split(" ")[1])
-        print(id_mesa)
         crudMenu.id_mesa = id_mesa
         answer =  crudMenu.mostrarcarrito()
         return jsonify({"transaccion":True,"data":answer})
