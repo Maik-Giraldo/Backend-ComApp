@@ -11,9 +11,10 @@ import bcrypt
 from flask_bcrypt import Bcrypt 
 import binascii
 from app import app
-from datetime import datetime
 from bson.objectid import ObjectId 
 from bson import json_util, ObjectId
+from datetime import datetime
+import pytz
 
 #Conexion con MongoDB
 app.config["MONGO_URI"]='mongodb+srv://comApp:qawsed123@cluster0.adpmk.mongodb.net/comApp?retryWrites=true&w=majority'
@@ -85,8 +86,11 @@ class Carrito():
             mongo.db.carritoCompras.delete_one({'id_platillo': id_platillo, "id_mesa": id_mesa})
 
             resultados = self.ContadorCarrito (id_mesa)
-            if resultados:
+
+            if resultados == 0 or resultados != 0:
+
                 resultados_count = resultados
+                print(resultados_count)
                 return jsonify({"transaccion": True, "resultados_count": resultados_count})
             return jsonify({"transaccion": True})
         return jsonify({"transaccion": False})
@@ -125,17 +129,24 @@ class Carrito():
         data2 = json.dumps(data)
         dataObject = json.loads(data2)
         id_mesa = dataObject["id_mesa"]
-        date = datetime.now()
+        utcmoment_naive = datetime.utcnow()
+        utcmoment = utcmoment_naive.replace(tzinfo=pytz.utc)
+        co = 'America/Panama'
+        date = utcmoment.astimezone(pytz.timezone(co))
+        print(date)
         id_pedido = None
         
         # Almacenar datos en la coleccion pedidos
-        if id_mesa and date and documento_cliente:
-
+        if id_mesa and documento_cliente:
+ 
             maximo = mongo.db.pedido.find().sort("id_pedido", -1)
             cantidad = maximo.count()
+  
 
             #Validacion
             if cantidad > 0:
+
+ 
                 data3 = list(maximo)
                 data4 = json.loads(json_util.dumps(data3))
                 dataObject1 = json.dumps(data4)
@@ -145,22 +156,25 @@ class Carrito():
             else:
                 id_pedido = 1
             #Creacion de consulta para base de datos para agregar
-            myquery= {
-                    "fechaHora": date,
-                    "id_pedido": id_pedido,
-                    "id_mesa": id_mesa,
-                    "estado": "pendiente"
-            }
-            #Aplicacion de consulta para agregar
-            guardar = mongo.db.pedido.insert_one(myquery)
 
-            #Creacion de consulta para base de datos para actualizar
-            myquery2 = {'documento': str(documento_cliente)}
-            newValues = {"$set": {
-                'id_pedido': id_pedido
-            }}
-            #Aplicacion de consulta para actualizar
-            actualizar = mongo.db.cliente.update_one(myquery2, newValues)
+            if id_pedido > 0:
+
+                myquery= {
+                        "fechaHora": date,
+                        "id_pedido": id_pedido,
+                        "id_mesa": id_mesa,
+                        "estado": "pendiente"
+                }
+                #Aplicacion de consulta para agregar
+                guardar = mongo.db.pedido.insert_one(myquery)
+
+                #Creacion de consulta para base de datos para actualizar
+                myquery2 = {'documento': str(documento_cliente)}
+                newValues = {"$set": {
+                    'id_pedido': id_pedido
+                }}
+                #Aplicacion de consulta para actualizar
+                actualizar = mongo.db.cliente.update_one(myquery2, newValues)
 
         # Almacenar datos en la coleccion detalle_pedido
 
@@ -216,7 +230,6 @@ class Carrito():
         i = search.count()
 
         for dat in mongo.db.carritoCompras.find(dataObject):
-            print(dat)
             #Consulta en base de datos para eliminar
             mongo.db.carritoCompras.delete_one(dat)
         return jsonify({"transaccion": True, "mensaje": "rechazar el pedido de forma exitosa"}),200
