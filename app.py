@@ -68,4 +68,5 @@ app.add_url_rule(FacturaCliente["factura_cliente"], view_func=FacturaCliente["fa
 
 if __name__ == '__main__':
     app.secret_key = 'mysecret'
-    app.run(host='0.0.0.0', debug=True, port=port)
+    # app.run(host='0.0.0.0', debug=True, port=port)
+    app.run(host='0.0.0.0', debug=True, port=5000)
