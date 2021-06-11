@@ -99,7 +99,7 @@ class Peticion():
             msg = MIMEMultipart()
             msg.attach(MIMEText(mensaje, 'html'))
             msg['From'] = remitente
-            msg['To'] = 'michaelgiraldo40@gmail.com'
+            msg['To'] = 'comapp.helloworld@gmail.com'
             msg['Subject'] = 'COMAPP - peticion para agregar un nuevo platillo'
             servidor.sendmail(msg['From'] , msg['To'], msg.as_string())
 
@@ -186,7 +186,7 @@ class Peticion():
                 msg = MIMEMultipart()
                 msg.attach(MIMEText(mensaje, 'html'))
                 msg['From'] = remitente
-                msg['To'] = 'michaelgiraldo40@gmail.com'
+                msg['To'] = 'comapp.helloworld@gmail.com'
                 msg['Subject'] = ' COMAPP - Peticion para editar un platillo'
                 servidor.sendmail(msg['From'] , msg['To'], msg.as_string())
 
@@ -226,7 +226,7 @@ class Peticion():
             msg = MIMEMultipart()
             msg.attach(MIMEText(mensaje, 'html'))
             msg['From'] = remitente
-            msg['To'] = 'michaelgiraldo40@gmail.com'
+            msg['To'] = 'comapp.helloworld@gmail.com'
             msg['Subject'] = ' COMAPP - Peticion para Eliminar un platillo'
             servidor.sendmail(msg['From'] , msg['To'], msg.as_string())
             return jsonify({"transaccion": True, "mensaje": "Los datos se enviaron de forma exitosa"})

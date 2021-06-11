@@ -35,10 +35,10 @@ class Qrcode():
 
         id_mesa = content.get('id_mesa')
 
-        # url = "http://localhost:4200/lectura/" + id_mesa
+        url = "https://comapp-e5279.web.app/lectura/" + id_mesa
 
-        url_env = getenv("url_front","http://localhost:4200/lectura/")
-        url = url_env + id_mesa
+        # url_env = getenv("url_front","http://localhost:4200/lectura/")
+        # url = url_env + id_mesa
 
         nombre_json = content.get('nombre')
 
