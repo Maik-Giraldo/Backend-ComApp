@@ -4,6 +4,12 @@ import json, datetime
 from bson.objectid import ObjectId
 from app import app
 
+"""
+@Class JSONEncoder
+@param json.JSONEncoder
+Desciprcion: clase utilizada para devolver archis JSON
+@return 
+"""
 class JSONEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o,ObjectId):

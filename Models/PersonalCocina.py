@@ -27,18 +27,23 @@ app.config["MONGO_URI"]='mongodb+srv://comApp:qawsed123@cluster0.adpmk.mongodb.n
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 
-#Clase Personal de Cocina
+'''
+Class Personal Cocina
+@Methods (Getfacturas, confirmarCocina, finalizarCocina, RechazarCocina, facturarCliente)
+Desciprcion: clase en la que se desarrollan todos los metodos relacionados con el rol del personal de cocina
+Responsable: Michael Giraldo, Andres taborda, Juan Leiton
+'''
 class PersonalCocina():
-    '''
-    Class Personal Cocina
-    @Methods (Getfacturas, confirmarCocina, finalizarCocina, RechazarCocina, facturarCliente)
-    @return
-    Responsable: Michael Giraldo, Andres taborda, Juan Leiton
-    '''
+    
     def __init__(self):
         pass
 
-    #Metodo ver facturas
+    """
+    @Method GetFacturas
+    @param self
+    Desciprcion: metodo para listar las facturas
+    @return 
+    """
     def GetFacturas(self):
         data = mongo.db.pedido_completo.find({})
         listado_pedido = list(data)
@@ -48,7 +53,12 @@ class PersonalCocina():
 
         return(listado_pedido)
 
-    #Metodo Confirmar pedido
+    """
+    @Method ConfirmarCocina
+    @param self
+    Desciprcion: metodo para confirmar un pedido pendiente
+    @return 
+    """
     def ConfirmarCocina(self):
         data = request.get_json()
         data2 = json.dumps(data)
@@ -124,7 +134,12 @@ class PersonalCocina():
         
         return jsonify({"transaccion": False}),200
 
-    #Metodo Finalizar pedido
+    """
+    @Method FinalizarCocina
+    @param self
+    Desciprcion: metodo finalizar un pedido ya confirmado
+    @return 
+    """
     def FinalizarCocina(self):
         data = request.get_json()
         data2 = json.dumps(data)
@@ -145,7 +160,12 @@ class PersonalCocina():
             return jsonify({"transaccion": True}),200
         return jsonify({"transaccion": False}),200
 
-    #Metodo rechazar pedido
+    """
+    @Method RechazarCocina
+    @param self
+    Desciprcion: metodo para rechazar un pedido pendiente
+    @return 
+    """
     def RechazarCocina(self):
         data = request.get_json()
         data2 = json.dumps(data)
@@ -221,7 +241,12 @@ class PersonalCocina():
         
         return jsonify({"transaccion": False}),200
 
-    #Metodo Factura cliete
+    """
+    @Method FacturaCliente
+    @param self
+    Desciprcion: metodo para listar las facturas de un cliente
+    @return 
+    """
     def FacturaCliente(self):
         #Buscar factura por cliente
         data = mongo.db.factura_final.find({})

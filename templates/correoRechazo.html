@@ -20,7 +20,6 @@
                 <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">FECHA Y HORA</th>
                 <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">PRECIO TOTAL</th>
                 <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">DATOS DEL CLIENTE</th>
-                <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">DATOS DEL PEDIDO</th>
               </tr>
             </thead>
             {% for date in facturaData1 %}
@@ -33,10 +32,10 @@
                     <thead>
                       <th style="margin: auto; text-align: center; border: 1px; border-style: solid; border-color: black;">Nombre</th>
                       <th style="margin: auto; text-align: center; border: 1px; border-style: solid; border-color: black;">Documento</th>
-                      <th style="margin: auto; text-align: center; border: 1px; border-style: solid; border-color: black;">Telefono</th>
+                      <th style="margin: auto; text-align: center; border: 1px; border-style: solid; border-color: black;">Teléfono</th>
                     </thead>
                     <tbody>
-                      {% for date2 in cliente %}
+                      {% for date2 in date['cliente'] %}
                       <tr style=" text-align: center; border: 1px; border-style: solid; border-color: black;">
                         <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date2['nombre']}}</td>
                         <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date2['documento']}}</td>
@@ -46,49 +45,57 @@
                     </tbody>
                   </table>
                 </td>
+              </tr>
+              <br>
+              <br>
+              <tr style="text-align: center; border: 1px; border-style: solid; border-color: black;">
+                <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">DATOS DEL PEDIDO</th>
+              </tr>
+              <tr style="text-align: center; border: 1px; border-style: solid; border-color: black;">
                 <td>
-                    <table style="text-align: center; border: 1px; border-style: solid; border-color: black;">
-                      <thead >
-                        <tr style="text-align: center; border: 1px; border-style: solid; border-color: black;">
-                          <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">platillo</th>
-                          <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">cantidad por unidad</th>
-                          <th style="margin: auto; text-align: center; border: 1px; border-style: solid; border-color: black;">informacion Platillo</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for date3 in date['detalle_pedido'] %}
-                        <tr style="text-align: center; border: 1px; border-style: solid; border-color: black;">
-                          <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date3['id_platillo']}}</td>
-                          <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date3['platillo_cantidad']}}</td>
-                          <td>
-                            <table>
-                              <thead>
-                                <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">Platillo</th>
-                                <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">Descipcion</th>
-                                <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">Precio</th>
-  
-                              </thead>
-                              <tbody>
-                                {% for date4 in date3['detalle_platillo'] %}
-                                <tr style="text-align: center; border: 1px; border-style: solid; border-color: black;">
-                                  <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date4['platillo']}}</td>
-                                  <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date4['descripcion']}}</td>
-                                  <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date4['precio_unitario']}}</td>
-  
-                                </tr>
-                                {% endfor %}
-                              </tbody>
-                            </table>
-                          </td>
-                        </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
-                  </td>
+                  <table style="text-align: center; border: 1px; border-style: solid; border-color: black;">
+                    <thead >
+                      <tr style="text-align: center; border: 1px; border-style: solid; border-color: black;">
+                        <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">Platillo</th>
+                        <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">Cantidad por unidad</th>
+                        <th style="margin: auto; text-align: center; border: 1px; border-style: solid; border-color: black;">Información platillo</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for date3 in date['detalle_pedido'] %}
+                      <tr style="text-align: center; border: 1px; border-style: solid; border-color: black;">
+                        <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date3['id_platillo']}}</td>
+                        <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date3['platillo_cantidad']}}</td>
+                        <td>
+                          <table>
+                            <thead>
+                              <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">Platillo</th>
+                              <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">Descripción</th>
+                              <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">Precio</th>
+
+                            </thead>
+                            <tbody>
+                              {% for date4 in date3['detalle_platillo'] %}
+                              <tr style="text-align: center; border: 1px; border-style: solid; border-color: black;">
+                                <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date4['platillo']}}</td>
+                                <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date4['descripcion']}}</td>
+                                <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date4['precio_unitario']}}</td>
+
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </td>
               </tr>
             </tbody>
             {% endfor%}
           </table>
+          <p style="color: gray; font-size: 10px;"> Todos los derechos reservados de COMAPP - HELLO WORLD</p>
         </div>
       </div>
     </div>

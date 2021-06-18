@@ -40,6 +40,8 @@ app.add_url_rule(peticionEditar["peticion_editar"], view_func=peticionEditar["pe
 
 app.add_url_rule(peticionEliminar["peticion_eliminar"], view_func=peticionEliminar["peticion_eliminar_controllers"])
 
+app.add_url_rule(peticionContacto["peticion_contacto"], view_func=peticionContacto["peticion_contacto_controllers"])
+
 app.add_url_rule(editarMenu["editar_menu"], view_func=editarMenu["editar_menu_controllers"])
 
 app.add_url_rule(eliminarMenu["eliminar_menu"], view_func=eliminarMenu["eliminar_menu_controllers"])
