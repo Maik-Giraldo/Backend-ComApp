@@ -13,20 +13,25 @@ import base64
 import dropbox
 import random
 
-#Clase peticion
+'''
+Class Peticion
+@Methods (Peticion, peticionEditar, PeticionEliminar)
+Descripcion: clase en la cual se establecen los metodos para enviar correos por parte del rol del gerente
+Responsable: Michael Giraldo, Andres taborda, Juan Leiton
+'''
 class Peticion():
 
-    '''
-    Class Peticion
-    @Methods (Peticion, peticionEditar, PeticionEliminar)
-    @return
-    Responsable: Michael Giraldo, Andres taborda, Juan Leiton
-    '''
+  
 
     def __init__(self):
         pass
 
-    #Metodo peticion agregar
+    """
+    @Method peticion
+    @param self
+    Desciprcion: metodo para enviar una peticion al correo de agregar un platillo
+    @return 
+    """
     def peticion(self):
 
         try:
@@ -109,7 +114,12 @@ class Peticion():
 
             return jsonify({"transaccion": False, "mensaje": "error"})
 
-    #Metodo peticion editar
+    """
+    @Method peticionEditar
+    @param self
+    Desciprcion: metodo para enviar una peticion al correo de editar un platillo
+    @return 
+    """
     def peticionEditar(self):
         try: 
             data = request.get_json()
@@ -195,7 +205,12 @@ class Peticion():
 
             return jsonify({"transaccion": False, "mensaje": "error"})
         
-    #Metodo peticion eliminar
+    """
+    @Method peticionEliminar
+    @param self
+    Desciprcion: metodo para enviar una peticion al correo de eliminar un platillo
+    @return 
+    """
     def peticionEliminar(self):
 
         try:
@@ -232,5 +247,50 @@ class Peticion():
             return jsonify({"transaccion": True, "mensaje": "Los datos se enviaron de forma exitosa"})
 
         except:
+
+            return jsonify({"transaccion": False, "mensaje": "error"})
+
+    """
+    @Method peticionContacto
+    @param self
+    Desciprcion: metodo para enviar una peticion al correo de contacto
+    @return 
+    """
+    def peticionContacto(self):
+
+      try:
+            data = request.get_json()
+            data2 = json.dumps(data)
+            dataObject = json.loads(data2)
+            asunto = dataObject['asunto']
+            nombre = dataObject['nombre']
+            correo = dataObject['correo' ]
+            descripcion = dataObject['descripcion']
+            telefono = dataObject['telefono']
+
+            # Envio de correo para peticion para contacto
+            subject = str(asunto)
+            archivo = render_template("correoContacto.html", descripcion = descripcion, nombre = nombre, correo= correo, telefono = telefono)
+
+            proveedor_correo = 'smtp.live.com: 587'
+            remitente = 'comapp.hw@hotmail.com'
+            password = 'comapp123'
+            #conexion a servidor
+            servidor = smtplib.SMTP(proveedor_correo)
+            servidor.starttls()
+            servidor.ehlo()
+            #autenticacion
+            servidor.login(remitente, password)
+            #mensaje 
+            mensaje = archivo
+            msg = MIMEMultipart()
+            msg.attach(MIMEText(mensaje, 'html'))
+            msg['From'] = remitente
+            msg['To'] = 'comapp.helloworld@gmail.com'
+            msg['Subject'] = asunto
+            servidor.sendmail(msg['From'] , msg['To'], msg.as_string())
+            return jsonify({"transaccion": True, "mensaje": "Los datos se enviaron de forma exitosa"})
+
+      except:
 
             return jsonify({"transaccion": False, "mensaje": "error"})

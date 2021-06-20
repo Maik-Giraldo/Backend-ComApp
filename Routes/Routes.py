@@ -1,5 +1,5 @@
 #Importacion controladores
-from Controllers.Controllers import QrCodeControllers ,RegisterUserControllers,LoginAdminControllers, MenuControllers, CrearMenuControllers,MandarMenuControllers, EditarMenuControllers, EliminarMenuControllers, AgregarCarritoControllers, EliminarCarritoControllers, CarritoCompras , ConfirmarPedidoControllers,RechazarPedidoControllers,PeticionEditarControllers,PeticionEliminarControllers,FacturasControllers, IngresarClienteControllers, ConfirmarCocinaControllers, FinalizarCocinaControllers, RechazarCocinaControllers,FacturaClienteControllers
+from Controllers.Controllers import QrCodeControllers ,RegisterUserControllers,LoginAdminControllers, MenuControllers, CrearMenuControllers,MandarMenuControllers, EditarMenuControllers, EliminarMenuControllers, AgregarCarritoControllers, EliminarCarritoControllers, CarritoCompras , ConfirmarPedidoControllers,RechazarPedidoControllers,PeticionEditarControllers,PeticionEliminarControllers,FacturasControllers, IngresarClienteControllers, ConfirmarCocinaControllers, FinalizarCocinaControllers, RechazarCocinaControllers,FacturaClienteControllers, PeticionContactoControllers
 
 #Ruta soporte tecnico codigo qr
 suport = {
@@ -39,6 +39,11 @@ peticionEditar = {
 #Ruta peticion eliminar menu
 peticionEliminar = {
     "peticion_eliminar": "/api/v01/menu/peticionEliminar", "peticion_eliminar_controllers":PeticionEliminarControllers.as_view("peticionEliminar_api"),
+}
+
+#Ruta peticion contacto menu
+peticionContacto = {
+    "peticion_contacto": "/api/v01/menu/peticionContacto", "peticion_contacto_controllers":PeticionContactoControllers.as_view("peticionContacto_api"),
 }
 
 #Ruta editar menu
