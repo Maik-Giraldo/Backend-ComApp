@@ -34,7 +34,12 @@ class CrudMenu():
     def __init__(self):
         pass
     
-    #Metodo de listar menu
+    """
+    @Method mostrar
+    @param self
+    Desciprcion: metodo para mostrar cada platillo del menu
+    @return 
+    """
     def mostrar(self):
 
         data = mongo.db.menu.find({})
@@ -45,7 +50,12 @@ class CrudMenu():
 
         return(listado_documentos)
 
-    #Metodo mostrar carrito
+    """
+    @Method mostrarcarrito
+    @param self
+    Desciprcion: metodo para listar los elementos del carrito
+    @return 
+    """
     def mostrarcarrito(self):
         id_mesa = self.id_mesa
         data = mongo.db.carritoCompras.find({'id_mesa' : id_mesa})
@@ -56,7 +66,12 @@ class CrudMenu():
 
         return(listado_carrito)
 
-    #Metodo crear platillo
+    """
+    @Method crear
+    @param self
+    Desciprcion: metodo para crear platillos
+    @return 
+    """
     def crear(self):
         data = request.get_json()
         data2 = json.dumps(data)
@@ -120,7 +135,12 @@ class CrudMenu():
         guardar = mongo.db.menu.insert_one(myquery)
         return jsonify({"transaccion": True, "mensaje": "Los datos se almacenaron de forma exitosa"})
 
-    #Metodo actualizar
+    """
+    @Method actualizar
+    @param self
+    Desciprcion: metodo para actualizar un platillo
+    @return 
+    """
     def actualizar(self):
         data = request.get_json()
         data2 = json.dumps(data)
@@ -192,7 +212,12 @@ class CrudMenu():
             return jsonify({"transaccion": True, "mensaje": "El platillo fue actualizado satisfactoriamente"})
         # return jsonify({"transaccion": True, "mensaje":})
     
-    #Metodo eliminar
+    """
+    @Method eliminar
+    @param self
+    Desciprcion: metodo para eliminar un platillo en especifico
+    @return 
+    """
     def eliminar(self):
         data = request.get_json()
         data2 = json.dumps(data)

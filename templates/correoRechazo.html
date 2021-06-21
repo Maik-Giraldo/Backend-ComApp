@@ -20,7 +20,6 @@
                 <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">FECHA Y HORA</th>
                 <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">PRECIO TOTAL</th>
                 <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">DATOS DEL CLIENTE</th>
-                <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">DATOS DEL PEDIDO</th>
               </tr>
             </thead>
             {% for date in facturaData1 %}
@@ -36,7 +35,7 @@
                       <th style="margin: auto; text-align: center; border: 1px; border-style: solid; border-color: black;">Teléfono</th>
                     </thead>
                     <tbody>
-                      {% for date2 in cliente %}
+                      {% for date2 in date['cliente'] %}
                       <tr style=" text-align: center; border: 1px; border-style: solid; border-color: black;">
                         <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date2['nombre']}}</td>
                         <td style="text-align: center; border: 1px; border-style: solid; border-color: black;">{{date2['documento']}}</td>
@@ -46,6 +45,13 @@
                     </tbody>
                   </table>
                 </td>
+              </tr>
+              <br>
+              <br>
+              <tr style="text-align: center; border: 1px; border-style: solid; border-color: black;">
+                <th style="text-align: center; border: 1px; border-style: solid; border-color: black;">DATOS DEL PEDIDO</th>
+              </tr>
+              <tr style="text-align: center; border: 1px; border-style: solid; border-color: black;">
                 <td>
                     <table style="text-align: center; border: 1px; border-style: solid; border-color: black;">
                       <thead >
@@ -89,6 +95,7 @@
             </tbody>
             {% endfor%}
           </table>
+          <p style="color: gray; font-size: 10px;"> Todos los derechos reservados de COMAPP - HELLO WORLD</p>
         </div>
       </div>
     </div>

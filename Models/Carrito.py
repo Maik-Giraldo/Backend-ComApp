@@ -13,7 +13,7 @@ import binascii
 from app import app
 from bson.objectid import ObjectId 
 from bson import json_util, ObjectId
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 
 #Conexion con MongoDB
@@ -32,12 +32,19 @@ class Carrito():
     @Methods (Agregar, eliinar, contadorCarrito, contadorPlatillo, confirmarPedido, rechazar pedido, ingresarCliente)
     @return
     Responsable: Michael Giraldo, Andres taborda, Juan Leiton
+    Descripcion: La clase carrito describe todos los metodos que se puedan realizar en el apartado del carrito u otras vistas desde donde se pueda interacturar con el carrito
     '''
     
     def _init_(self):
         pass
 
-    #Metodo Agregar al carrito
+
+    """
+    @Method Agregar
+    @param self
+    Desciprcion: metodo para agregar productos al carrito
+    @return 
+    """
     def Agregar(self):
         data = request.get_json()
         data2 = json.dumps(data)
@@ -73,7 +80,13 @@ class Carrito():
             return jsonify({"transaccion": True})
         return jsonify({"transaccion": False})
 
-    #Metodo para eliminar del carrito
+    """
+    @Method Eliminar
+    @param self
+    Desciprcion: metodo para eliminar productos del carrito
+    @return 
+    """
+
     def Eliminar(self):
         data = request.get_json()
         data2 = json.dumps(data)
@@ -95,7 +108,14 @@ class Carrito():
             return jsonify({"transaccion": True})
         return jsonify({"transaccion": False})
 
-    #Metodo contador para productos en el carrito
+    
+    """
+    @Method ContadorCarrito
+    @param self, id_mesa
+    Desciprcion: metodo para contar los productos agregados al carrito
+    @return 
+    """
+
     def ContadorCarrito(self, id_mesa):
         #Consulta a base de datos
         if id_mesa:
@@ -108,7 +128,13 @@ class Carrito():
             return 0
         return 0
 
-    #Contador de platillo  por mesa
+
+    """
+    @Method ContadorPlatillo
+    @param self, id_platillo, id_mesa
+    Desciprcion: metodo para contar los productos agregados al carrito de una mesa en especifico
+    @return 
+    """
     def ContadorPlatillo(self, id_platillo, id_mesa):
         #consulta a base de datos
         if id_platillo and id_mesa:
@@ -122,7 +148,13 @@ class Carrito():
             return 0
         return 0
 
-    #Metodo confirmar pedido
+    """
+    @Method ConfirmarPedido
+    @param self
+    Desciprcion: metodo para confirmar el pedido en conjunto
+    @return 
+    """
+
     def ConfirmarPedido(self):     
         documento_cliente = documentoCliente
         data = request.get_json()
@@ -132,8 +164,9 @@ class Carrito():
         utcmoment_naive = datetime.utcnow()
         utcmoment = utcmoment_naive.replace(tzinfo=pytz.utc)
         co = 'America/Panama'
-        date = utcmoment.astimezone(pytz.timezone(co))
-        print(date)
+        date = utcmoment.astimezone(pytz.timezone(co)) - timedelta(hours = 5)
+        print(date) 
+
         id_pedido = None
         
         # Almacenar datos en la coleccion pedidos
@@ -217,7 +250,13 @@ class Carrito():
             mongo.db.carritoCompras.delete_one(dat)
         return jsonify({"transaccion": True, "mensaje": "confirmar el pedido de forma exitosa"}),200
   
-    #Metodo rechazar pedido
+    """
+    @Method RechazarPedido
+    @param self
+    Desciprcion: metodo para rechazar el pedido en conjunto
+    @return 
+    """
+
     def RechazarPedido(self):
         data = request.get_json()
         data2 = json.dumps(data)
@@ -234,7 +273,12 @@ class Carrito():
             mongo.db.carritoCompras.delete_one(dat)
         return jsonify({"transaccion": True, "mensaje": "rechazar el pedido de forma exitosa"}),200
 
-    #Metodo ingresar cliente
+    """
+    @Method IngresarCliente
+    @param self
+    Desciprcion: metodo para registrar los datos del cliente
+    @return 
+    """
     def IngresarCliente(self):
         data = request.get_json()
         data2 = json.dumps(data)

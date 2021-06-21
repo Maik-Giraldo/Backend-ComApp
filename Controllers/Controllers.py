@@ -191,6 +191,16 @@ class PeticionEliminarControllers(MethodView):
         return (answer)
 
 '''
+Clase Peticion Contacto
+Responsable Andres Taborda
+Methods POST
+'''
+class PeticionContactoControllers(MethodView):
+    def post(self):
+        answer = peticion.peticionContacto()
+        return (answer)
+
+'''
 Clase Editar Menu
 Responsable Andres Taborda
 Methods PUT
