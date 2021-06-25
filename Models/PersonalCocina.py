@@ -129,7 +129,7 @@ class PersonalCocina():
             msg['To'] = str(correo)
             msg['Subject'] = ' COMAPP - Factura de compra'
             servidor.sendmail(msg['From'] , msg['To'], msg.as_string())
-                
+
             return jsonify({"transaccion": True}),200
         
         return jsonify({"transaccion": False}),200
@@ -236,6 +236,7 @@ class PersonalCocina():
             }}
 
             cambiarEstado = mongo.db.pedido.update_one(myquery,newValues)
+            eliminarCliente = mongo.db.cliente.delete_one({'id_pedido': id_pedido})
 
             return jsonify({"transaccion": True}),200
         
